@@ -1,27 +1,38 @@
-# Code for *Quantum algebra thoughts on the Riemann hypothesis*
+# Quantum algebra thoughts on the Riemann hypothesis
 
-These five Python programs reproduce finite calculations in the paper. Run them from the extracted `code019` folder with Python 3.9 or later. All inputs are specified in the scripts, including the number of zeros. The programs print their results and check them as they run.
+**Chat and Teo** (November 2026)
 
-Install the dependencies once if needed.
+This repository contains the paper (22 pages, PDF and LaTeX source) and the 5 Python programs used for its computations.
+
+## Summary
+
+Li's criterion expresses the Riemann hypothesis through the signs of a sequence of real numbers attached to the zeta function. We ask what happens when we read these numbers as averages of squared characters, first on the rotation groups $SU_2$ and $SO_3$, then on their quantum counterparts.
+
+- **Quantum rotations.** The Riemann hypothesis is equivalent to the existence of a central tracial state on $O_2^+$ whose squared character moments are the normalized Li coefficients. This state is unique. We also examine the corresponding moment problem on $S_4^+$.
+- **Jones indices.** For the discrete indices $I_n=4\cos^2(\pi/n)$ below $4$, the field norm of $4-I_n$ equals $p$ when $n$ is a power of the prime $p$, and equals $1$ otherwise. Taking products gives a reformulation of von Koch's criterion.
+- **Random matrices.** The character polynomial of the quantum unitary group $U_N^q$ has the same law as the characteristic polynomial of a Haar unitary matrix. This gives a quantum group formulation of Montgomery's pair correlation conjecture for the zeros of the zeta function.
+
+## Contents
+
+[019.pdf](019.pdf) is the paper and [019.tex](019.tex) is its LaTeX source. The programs are in [code019/](code019/).
+
+| Programs | Computation |
+| --- | --- |
+| `verify.py`, `li_contour.py` | Compute Li coefficients by Taylor expansion and contour integration, and check the trace inequality for quantum permutations. |
+| `zeros_check.py` | Compare sums over the first 80 positive zero ordinates with a logarithmic derivative of the completed zeta function, and compute a Gaussian pair statistic. |
+| `cyclotomic.py` | Compute the field norms of the index gaps and check their product against the least common multiple formula through 120. |
+| `powers.py` | Check power-trace moments for Haar unitary matrices in dimensions 2, 3 and 4, and a flip calculation for the deformed quantum unitary group. |
+
+## Running the code
+
+From the repository root, run the following with Python 3.9 or later.
 
 ```sh
+cd code019
 python3 -m pip install mpmath numpy scipy
-```
-
-| Program | Where it is used | Calculation |
-| --- | --- | --- |
-| `verify.py` | Sections 1 and 2, especially Proposition 2.7 and Theorem 2.11 | Computes the first three Li coefficients from the Taylor expansion at 1, checks their ratios and the signed trace obstruction, and evaluates the trace inequality on a four-point magic unitary. |
-| `li_contour.py` | Sections 1 and 2 | Uses Claude's independent contour method from the referee report. It computes seven Li coefficients at two radii and compares the first three with `verify.py`. |
-| `zeros_check.py` | Theorem 2.8 and the pair statistic in Section 4 | Compares the differentiated xi function with three truncated resolvent sums using the first 80 positive ordinates. Computes the finite Gaussian pair statistic by two methods and checks the diagonal correction with a repeated input. |
-| `cyclotomic.py` | Theorem 3.5 | Checks the gap norms using conjugate products and exact integer cyclotomic evaluations. Compares their cumulative product with half the least common multiple at every integer cutoff from 3 to 120 and checks the additional D and E factors. |
-| `powers.py` | Section 4, Propositions 4.9 and 4.13 | Integrates the classical trace moments on finite root-of-unity grids for matrix sizes 2, 3 and 4 and checks the compressed flip on the quantum antisymmetric square. |
-
-```sh
 python3 verify.py
 python3 li_contour.py
 python3 zeros_check.py
 python3 cyclotomic.py
 python3 powers.py
 ```
-
-The two Li calculations give approximately −0.00007405759501464 for the combination in Theorem 2.11. At the first 80 ordinates, the three regularized resolvent residuals are about 2.47 × 10⁻⁸ and the Gaussian pair statistic is 0.157510531840443. This statistic uses the paper's global scale and Montgomery weight. It is a finite-height illustration.
