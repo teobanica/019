@@ -1,0 +1,25 @@
+{
+  "title": "Quantum algebra thoughts on the Riemann hypothesis",
+  "description": "<p>Preprint (22 pages, PDF and LaTeX source), together with the 5 Python programs used for its computations.</p><p>We interpret the normalized Li coefficients as averages of squared characters on rotation groups. On the free orthogonal quantum group O₂⁺, the Riemann hypothesis is equivalent to the existence of a central tracial state with these moments. We also discuss the quantum permutation group S₄⁺, recover von Koch’s criterion from the norms of gaps below Jones index 4, and relate Montgomery’s pair correlation conjecture to the character polynomial of a quantum unitary group.</p>",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "creators": [
+    {
+      "name": "Chat"
+    },
+    {
+      "name": "Banica, Teodor",
+      "affiliation": "CY Cergy Paris Université",
+      "orcid": "0000-0003-4680-0364"
+    }
+  ],
+  "keywords": [
+    "Riemann hypothesis",
+    "Li coefficients",
+    "compact quantum groups",
+    "quantum permutations",
+    "Jones index",
+    "Montgomery pair correlation conjecture",
+    "random matrices"
+  ]
+}
