@@ -1,0 +1,1070 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm}
+\usepackage[pdfusetitle,colorlinks=true,linkcolor=black,citecolor=magenta,urlcolor=black]{hyperref}
+\urlstyle{same}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem*{introthm}{Theorem}
+\setlength{\parskip}{1pt}\setlength{\emergencystretch}{2em}
+\raggedbottom
+\setcounter{tocdepth}{1}
+\title{Quantum algebra thoughts on the Riemann hypothesis}
+\author{Chat and Teo}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+This is a collection of quick thoughts on the Riemann hypothesis, inspired by its recent proof, from a quantum algebra perspective.
+\end{abstract}
+\begingroup
+\color{magenta}\hypersetup{linkcolor=magenta}
+\setlength{\parskip}{0pt}
+\renewcommand{\addvspace}[1]{\vspace{2pt}}
+\tableofcontents
+\endgroup
+\section*{Introduction}
+\phantomsection\addcontentsline{toc}{section}{Introduction}
+The Riemann hypothesis was recently proved by Alp\"oge and Claude, with Lean contributing too \cite{alpoge-claude}. This leads to many questions for us mathematicians. (1) Can that 250k page proof be simplified? (2) What about the other approaches to RH? (3) Will there be new approaches to RH, coming from this buzz? (4) What about related questions, such as Montgomery--Dyson?
+
+The difficult questions are of course (1,2), and (4) too. Regarding the two of us, we are here rather as amateurs, interested in (3,4). We would like to report on some quick thoughts on these questions, that came to us in the last few days, from a quantum algebra perspective.
+
+Formally reformulating RH in terms of representation theory is not a difficult question. Following Li, Lagarias and others \cite{arias,lagarias,li-ref,ms}, the normalized Li coefficients $\lambda_n/\lambda_1$ are the averages of the squared characters of $SU_2$ against a single probability measure, exactly when RH holds. On $SO_3$ the successive differences of the Li coefficients determine a unique class measure. Our main observation is the following reformulation in terms of the quantum group $O_2^+$.
+
+\begin{introthm}
+RH is equivalent to the existence of a central tracial state $\tau$ on $C(O_2^+)$ satisfying
+\[
+ \tau(\chi_{n-1}^*\chi_{n-1})=\lambda_n/\lambda_1
+\]
+for every $n\geq1$, where $\chi_{n-1}$ is the character of the $n$-dimensional irreducible representation. This state is unique and has norm distance $2$ from every state factoring through $C(O_2)$.
+\end{introthm}
+
+This result can be understood as well via the twisting isomorphism $O_2^+=SU_2^{-1}$, and along the same lines, we discuss as well what happens over $S_4^+=SO_3^{-1}$. We also look at von Koch's criterion through the Jones indices below $4$. Here the norms of the gaps pick out the prime powers. Finally, in connection with Montgomery--Dyson, we observe that the character polynomial of $U_N^q$ has the same law as the characteristic polynomial of a Haar unitary matrix.
+
+Needless to say, or rather repeat, the RH was already proved in \cite{alpoge-claude}, and such things remain something speculatory. Whether these can be any good, remains to be seen. In particular, and sure we know this, the normalized Li coefficients $\lambda_n/\lambda_1$ encode subtle arithmetic, and finding subtle arithmetic phenomena inside $O_2^+$ or $S_4^+$ is something which remains to be found.
+
+As a ray of light however, the considerations in \cite{banica-opus} suggest that there is enough mathematics and physics inside $O_2^+$ and $S_4^+$, as to deal with a whole array of non-trivial questions. Can advanced arithmetic be one of them? We don't know.
+
+The paper is organized as follows. In section~1 we discuss the RH, the work of Li, Lagarias and others, and the relation with $SU_2$ and $SO_3$. In section~2 we discuss the $O_2^+$ reformulation and we prove the Theorem above, and we discuss as well $S_4^+$. In section~3 we discuss the relation with small index subfactors. Finally, in section~4 we discuss the Montgomery--Dyson conjecture. The paper ends with a substantial reference list, guiding anyone who might be interested in further exploring the topics discussed here.
+
+\medskip
+\noindent\textbf{Acknowledgements.} We would like to thank Claude for a useful report on a preliminary version of this note, prepared a bit recklessly, not exactly a new proof of the RH, but a paper written without duly checking the literature, that almost made it to the internet, yesterday.
+
+\section{Rotation groups}\label{rh}
+The Riemann zeta function is defined for $Re(s)>1$ by the absolutely convergent series
+\[
+ \zeta(s)=\sum_{n=1}^\infty n^{-s}=\prod_p(1-p^{-s})^{-1}.
+\]
+The product runs over the primes and follows from unique factorization. The meromorphic continuation of $\zeta$ has a simple pole at $1$ and trivial zeros at the negative even integers. To work with the other zeros we use the completed function
+\[
+ \xi(s)=\tfrac12 s(s-1)\pi^{-s/2}\Gamma(s/2)\zeta(s).
+\]
+It is entire, satisfies $\xi(s)=\xi(1-s)$, and has $\xi(0)=\xi(1)=1/2$. Its zeros are exactly the nontrivial zeros $\rho$ of $\zeta$. They lie in $0<Re(s)<1$ and occur with $\overline\rho$ and $1-\rho$. The Riemann hypothesis (RH) says that $Re(\rho)=1/2$ for every such zero. Throughout, zeros are counted with multiplicity.
+
+For the arithmetic background, see Hardy and Wright~\cite{hw}, Ireland and Rosen~\cite{ir} and Serre~\cite{serre}. Apostol~\cite{apostol} develops the analytic theory of primes. For the zeta function itself we follow Titchmarsh~\cite{titchmarsh}.
+
+We use the positivity criterion of Li~\cite{li-ref}.
+
+\begin{samepage}
+\begin{thm}[Li]\label{li}
+For $n\geq1$ define the real coefficients
+\[
+ \lambda_n=\frac{1}{(n-1)!}\left.\frac{d^n}{ds^n}
+             \big(s^{n-1}\log\xi(s)\big)\right|_{s=1},
+ \qquad \lambda_0=0,
+\]
+using the branch of $\log\xi(s)$ that is real for real $s$ near $1$. Then
+\[
+ \lambda_n=\lim_{T\to\infty}\sum_{|Im(\rho)|\leq T}
+              \left(1-\left(1-\frac1\rho\right)^n\right)
+\]
+for $n\geq1$, and RH is equivalent to $\lambda_n\geq0$ for all $n\geq1$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+The symmetric zero sum follows by logarithmic differentiation of the Hadamard product for $\xi$, as in Li~\cite{li-ref} and Bombieri and Lagarias~\cite{bl}. Under RH write the zeros in pairs $1/2\pm i\gamma$, with $\gamma>0$, and put $\theta_\gamma=\arctan(1/(2\gamma))$. At the upper zero we have $1-1/\rho=e^{2i\theta_\gamma}$. Pairing the $2$ ordinates as in Arias de Reyna~\cite{arias} gives
+\[
+ \lambda_n=4\sum_{\gamma>0}\sin^2(n\theta_\gamma).
+\]
+The series converges absolutely, since $|\sin(n\theta)|\leq n\sin\theta$ for $0\leq\theta\leq\pi$, and $\sin^2\theta_\gamma=(1+4\gamma^2)^{-1}$ is summable by the zero count $O(T\log T)$. In particular every coefficient is positive or zero.
+
+The converse is Li's positivity criterion~\cite{li-ref}. For the corresponding power series of $\log\xi(1/(1-z))$ see Keiper~\cite{keiper}.
+\end{proof}
+
+The normalization we shall use is $\lambda_1=1+\gamma_E/2-\log(4\pi)/2=0.0230957\ldots$, where $\gamma_E$ is Euler's constant. The program \texttt{verify.py} computes $\lambda_1,\lambda_2,\lambda_3$ from the Taylor expansion of $\log\xi$ at $1$. Independently, \texttt{li\_contour.py} computes the first $7$ Li coefficients by Cauchy's formula on $2$ circles in the variable $z$ of Keiper's series. Several classical formulas express these coefficients as squares. We take scalar products linear in the first variable and conjugate-linear in the second. For $G_n(s)=1-(1-1/s)^n$, Lagarias~\cite{lagarias} computes the Weil form as $\langle G_n,G_n\rangle_W=2\lambda_n$. Indeed $G_n(\rho)G_n(1-\rho)=G_n(\rho)+G_n(1-\rho)$, and the $2$ terms have the same symmetric sum by $\rho\leftrightarrow1-\rho$. Suzuki~\cite{suzuki} gives a model-space norm formula. For trigonometric formulas see He, Jejjala and Minic~\cite{hjm}. Mazhouda and Smajlovi\'c~\cite{ms} use Chebyshev polynomials. Their summand $1-T_n(\cos(2\theta))$ equals $2\sin^2(n\theta)$, where $T_n(\cos t)=\cos(nt)$.
+
+To see the rotation group in this formula, take an element of $SU_2$ with eigenvalues $e^{i\theta},e^{-i\theta}$, $0\leq\theta\leq\pi$. Its character on the $(n-1)$st symmetric power of $\mathbb C^2$ is
+\[
+ \chi_{n-1}(\theta)=\sum_{k=0}^{n-1}e^{i(n-1-2k)\theta}
+                    =\frac{\sin(n\theta)}{\sin\theta},
+\]
+with the limiting values at $0,\pi$. This symmetric power is the irreducible representation of dimension $n$. For the general character formula see Bump~\cite{bump}.
+
+\begin{samepage}
+\begin{thm}\label{state}
+RH is equivalent to the existence of a probability measure $\mu$ on $SU_2$ such that
+\[
+ \int_{SU_2}|\chi_{n-1}(g)|^2\,d\mu(g)=\lambda_n/\lambda_1
+\]
+for every $n\geq1$. One can choose $\mu$ invariant under conjugation.
+\end{thm}
+\end{samepage}
+\begin{proof}
+Under RH give the conjugacy class of angle $\theta_\gamma$ its invariant probability measure, weighted by $w_\gamma=4\sin^2\theta_\gamma/\lambda_1$. The sine formula for $n=1$ gives $\sum_{\gamma>0} w_\gamma=1$. On multiplying by $|\chi_{n-1}(\theta_\gamma)|^2$, the denominator $\sin^2\theta_\gamma$ cancels, and the sine formula for $n$ gives the required integral. Conversely each integral is positive or zero, so Theorem~\ref{li} gives RH.
+\end{proof}
+
+The squared characters are even under $g\to-g$. They therefore descend through the double cover $p:SU_2\to SO_3$. Let $D_j$ denote the irreducible character of $SO_3$ of dimension $2j+1$, so $D_j\circ p=\chi_{2j}$. For these characters and their use in random rotation walks see Rosenthal~\cite{rosenthal}.
+
+\begin{samepage}
+\begin{prop}\label{rot}
+Under RH there is a unique conjugation-invariant probability measure $\nu$ on $SO_3$ with
+\[
+ \int_{SO_3}D_j(g)\,d\nu(g)=\frac{\lambda_{j+1}-\lambda_j}{\lambda_1}
+\]
+for all $j\geq0$. Its rotation angle has mass $w_\gamma$ at $2\theta_\gamma$ per positive ordinate. Conversely, existence of a probability measure with these integrals implies RH.
+\end{prop}
+\end{samepage}
+\begin{proof}
+Push the measure of Theorem~\ref{state} forward by $p$. Clebsch--Gordan gives $|\chi_j|^2=\chi_0+\chi_2+\ldots+\chi_{2j}$, and subtracting successive squares gives the displayed integral. The rotation corresponding to eigenvalues $e^{\pm i\theta_\gamma}$ has angle $2\theta_\gamma$, so multiplicities add at repeated angles. The characters $D_j$ span a dense subspace of the continuous class functions. Their integrals determine an invariant measure, since one may average any continuous test function over conjugation. Conversely, summing the prescribed integrals for $0\leq j<n$ recovers the integral of the descended square $|\chi_{n-1}|^2$. Theorem~\ref{li} applies.
+\end{proof}
+
+\begin{samepage}
+\begin{thm}\label{classicallifts}
+Under RH every conjugation-invariant solution of the moment equations of Theorem~\textup{\ref{state}} on $SU_2$ is obtained by splitting the weight at each distinct positive ordinate $\gamma$ between the classes at $\theta_\gamma$ and $\pi-\theta_\gamma$. The splits are independent, giving a continuum of solutions.
+\end{thm}
+\end{samepage}
+\begin{proof}
+The class of angle $\theta$ maps to the class of angle $2\min(\theta,\pi-\theta)$ in $SO_3$. By Proposition~\ref{rot} the image measure is fixed, and every angle carrying mass lies strictly between $0$ and $\pi$. Its $2$ inverse classes carry their invariant probabilities, in any proportions whose sum is the specified mass. Each choice gives the same squared-character integrals. $1$ free parameter already gives a continuum, and a countable sequence of parameters gives at most a continuum.
+\end{proof}
+
+\section{Quantum rotations}\label{central}
+We would like to talk about RH and quantum algebra by building on the $SU_2$ and $SO_3$ approach of Section~\ref{rh}. Before that, however, no discussion of RH and quantum algebra could take place without a word on the work of Connes, who has devoted many years to this question. In 1999 Connes~\cite{connes} interpreted the explicit formula of number theory as a trace formula on the ad\`ele class space. For the general theory see the book of Connes~\cite{connes-book}, and for the arithmetic side see Connes and Marcolli~\cite{connes-marcolli}. More recently, Connes and Consani~\cite{connes-consani} have studied the low-lying zeros by means of spectral triples.
+
+Our question is a smaller one. Squaring a character of $SU_2$ loses the distinction between $g$ and $-g$. We saw in Theorem~\ref{classicallifts} how this leaves a choice of measures with the same moments. What becomes of that choice on $O_2^+$? To explain the question, let us start with an ordinary compact group $G$.
+
+The continuous complex functions on $G$ form a commutative algebra $C(G)$. Group multiplication can be read directly from these functions. To $f\in C(G)$ associate the function $\Delta f$ of $2$ variables given by $(\Delta f)(g,h)=f(gh)$. This operation is called the coproduct. Associativity of multiplication says that applying it twice gives the same answer whichever variable is split first.
+
+Woronowicz~\cite{woro-cmp} introduced compact matrix quantum groups by allowing the coordinate functions to be noncommutative. His general definition of a compact quantum group uses the following $2$ density conditions, as in Neshveyev and Tuset~\cite{nt}.
+
+\begin{samepage}
+\begin{defn}
+A compact quantum group $G$ is given by a unital $C^*$-algebra $A=C(G)$ and a unital $*$-homomorphism $\Delta:A\to A\otimes_{min}A$, called the coproduct, which must be coassociative,
+\[
+ (\Delta\otimes id)\Delta=(id\otimes\Delta)\Delta,
+\]
+and such that the linear spans of $\Delta(A)(1\otimes A)$ and $\Delta(A)(A\otimes1)$ are both dense in $A\otimes_{min}A$.
+\end{defn}
+\end{samepage}
+
+The density conditions express the $2$ cancellation laws. For an ordinary group, knowing $gh$ and either one of $g,h$ determines the other. For the matrix case of Kac type we use the full algebra of functions, as in \cite{banica-book}.
+
+\begin{samepage}
+\begin{defn}
+A compact matrix quantum group of Kac type is given by a unital $C^*$-algebra $A=C(G)$ generated by the entries of a unitary matrix $u\in M_N(A)$. We require unital $*$-homomorphisms $\Delta:A\to A\otimes_{min}A$, $\varepsilon:A\to\mathbb C$ and $S:A\to A^{op}$ given on generators by
+\[
+ \Delta(u_{ij})=\sum_{k=1}^N u_{ik}\otimes u_{kj},\qquad
+ \varepsilon(u_{ij})=\delta_{ij},\qquad S(u_{ij})=u_{ji}^*.
+\]
+Here $A^{op}$ is $A$ with multiplication reversed. The antipode satisfies $S^2=id$.
+\end{defn}
+\end{samepage}
+
+For a closed subgroup $G\subset U_N$, take $u_{ij}(g)=g_{ij}$. The coproduct comes from matrix multiplication, the counit evaluates at the identity, and the antipode is given by $S(f)(g)=f(g^{-1})$.
+
+For the classical orthogonal group $O_N$, the coordinate functions $u_{ij}(g)=g_{ij}$ are real valued, and the rows and columns of $g$ are orthonormal. Wang~\cite{wang} uses these same relations to define the free orthogonal quantum group.
+
+\begin{samepage}
+\begin{defn}
+The free orthogonal quantum group $O_N^+$ is given by the universal unital $C^*$-algebra $C(O_N^+)$ generated by self-adjoint elements $u_{ij}$, $1\leq i,j\leq N$, with relations
+\[
+ \sum_{k=1}^N u_{ik}u_{jk}=\delta_{ij}1,\qquad
+ \sum_{k=1}^N u_{ki}u_{kj}=\delta_{ij}1 .
+\]
+On the $*$-algebra generated by the $u_{ij}$, the coproduct, counit and antipode are given by
+\[
+ \Delta(u_{ij})=\sum_{k=1}^N u_{ik}\otimes u_{kj},\qquad
+ \varepsilon(u_{ij})=\delta_{ij},\qquad S(u_{ij})=u_{ji}.
+\]
+The antipode reverses products, so applying it twice gives $S^2=id$ on this algebra.
+\end{defn}
+\end{samepage}
+
+The tensor products of a fundamental corepresentation and its conjugate determine the group through their concrete spaces of intertwining maps, by the reconstruction theorem of Woronowicz~\cite{woro-tk}.
+
+The superscript $+$ allows the entries to be noncommuting. By universality, any orthogonal matrix of self-adjoint elements in a unital $C^*$-algebra gives a representation of $C(O_N^+)$. In particular, the coproduct comes from the product of the $2$ orthogonal matrices $(u_{ij}\otimes1)$ and $(1\otimes u_{ij})$. Requiring the entries to commute gives back $C(O_N)$.
+
+Already for $N=2$ we can see what the extra freedom amounts to. If $a,b$ are self-adjoint unitaries, the diagonal matrix with entries $a,b$ satisfies both orthogonality relations, whether or not $a$ and $b$ commute. Under the Haar state of $O_2^+$, each squared entry $u_{ij}^2$ has the uniform law on $[0,1]$~\cite{bc-integration}. Substituting ordinary plane rotations gives a quotient $C(O_2^+)\to C(SO_2)$. Thus a measure on ordinary rotations already defines a state on $C(O_2^+)$. To formulate the moment problem we need $1$ more condition on the state.
+
+\begin{samepage}
+\begin{defn}
+A state on $C(G)$ is a positive linear functional $\tau$ with $\tau(1)=1$. It is tracial if $\tau(ab)=\tau(ba)$ for all $a,b$. For a compact matrix quantum group, a unitary corepresentation is a unitary matrix $v$ over $C(G)$ with $\Delta(v_{ij})=\sum_k v_{ik}\otimes v_{kj}$. The state is central if for each irreducible unitary corepresentation $v$ we have
+\[
+ (\tau(v_{ij}))_{ij}=b_v I
+\]
+for a scalar $b_v$, called its Fourier coefficient at $v$.
+\end{defn}
+\end{samepage}
+
+On an ordinary compact group the central states are precisely the conjugation-invariant probability measures, and every state is tracial. For centrality in the theory of convolution semigroups on $O_N^+$ see Cipriani, Franz and Kula~\cite{cfk}. Write $\chi_j$ for the character of the $j$th irreducible of $O_2^+$, starting with $\chi_0=1$ and the fundamental character $\chi_1$. The fusion rule $\chi_1\chi_j=\chi_{j-1}+\chi_{j+1}$ for $j\geq1$ gives the dimensions $1,2,3,\ldots$~\cite{banica-book}.
+
+The group calculation uses the realization of $O_2^+=SU_2^{-1}$ as a twist of $K=SU_2$. Put $C(K)_j=\{f:f(-g)=(-1)^jf(g)\}$ for $j=0,1$. The even part is $C(SO_3)$ via the double cover $p:K\to SO_3$. Let $\alpha$ be conjugation by $d=diag(i,-i)$ and let $v$ implement it in the crossed product, so $v=v^*=v^{-1}$ and $vf=\alpha(f)v$. In these coordinates we have
+\[
+ C(O_2^+)=C(K)_0+C(K)_1v,\qquad J(f+b)=f+bv
+\]
+for $f$ even and $b$ odd. Indeed, if $a,c$ are the first-column entries of $g\in K$, then $\alpha(a)=a$ and $\alpha(c)=-c$. The generators $av,cv$ satisfy the relations of Woronowicz~\cite{woro-su} at $q=-1$. Twisting a second time recovers $a,c$. This identifies the algebras of representative functions, with $J$ preserving the coproduct. Each irreducible coefficient matrix of $K$ has a single parity, and applying $J$ to its entries gives the corresponding matrix of the twist. Haar integration on $K$ after the crossed-product expectation gives the faithful Haar state of the model. Coamenability of $O_2^+$ thus gives the universal completion. The coefficients $f,b$ are recovered by applying the expectation to $f+bv$ and $(f+bv)v$, so $J$ and its inverse are bounded.
+
+In particular, a functional $\sigma$ is central precisely when $\sigma\circ J$ is invariant under conjugation on $K$, by Schur's lemma on each irreducible coefficient matrix. For background see Neshveyev and Tuset~\cite{nt}, and for more on graded twists see Bichon, Neshveyev and Yamashita~\cite{bny}.
+
+We can now prove the theorem announced in the Introduction.
+
+\begin{samepage}
+\begin{thm}\label{li-trace}
+RH is equivalent to the existence of a central tracial state $\tau$ on $C(O_2^+)$ satisfying
+\[
+ \tau(\chi_{n-1}^*\chi_{n-1})=\lambda_n/\lambda_1
+\]
+for every $n\geq1$, where $\chi_{n-1}$ is the character of the $n$-dimensional irreducible representation. This state is unique and has norm distance $2$ from every state factoring through $C(O_2)$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+Suppose first that such a state exists. Since $\lambda_1>0$, positivity on squares gives $\lambda_n=\lambda_1\tau(\chi_{n-1}^*\chi_{n-1})\geq0$ for every $n\geq1$. Li's criterion, Theorem~\ref{li}, gives RH.
+
+Conversely, assume RH and take the class measure $\nu$ of Proposition~\ref{rot} on $SO_3$. Define $\tau(f+bv)=\int f\,d\nu$. Projection onto the even part is positive, so $\tau$ is a state. Its composition with $J$ is conjugation-invariant. To check traciality, take $2$ odd terms $bv,b'v$. Their products in the $2$ orders are $b\alpha(b')$ and $b'\alpha(b)$, which have equal integrals by invariance under $\alpha$. The other products satisfy the trace identity immediately. The even character $\chi_{2j}$ is the character $D_j$ of $SO_3$ from Section~\ref{rh}. The fusion rules therefore give
+\[
+ \tau(\chi_{n-1}^*\chi_{n-1})
+ =\sum_{j=0}^{n-1}\int_{SO_3}D_j\,d\nu
+ =\sum_{j=0}^{n-1}\frac{\lambda_{j+1}-\lambda_j}{\lambda_1}
+ =\frac{\lambda_n}{\lambda_1}.
+\]
+Conversely, taking successive differences shows that every central tracial solution has this same even measure $\nu$.
+
+To see why the lift is unique, let $F\subset SO_3$ be the rotations commuting with the half-turn $p(d)$. For any tracial state $\sigma$ with even measure $\eta$ we claim that
+\[
+ |\sigma(bv)|^2\leq\int_F |b|^2\,d\eta
+\]
+for every odd $b$. Indeed, traciality gives $\sigma((a-\alpha(a))bv)=0$ for each even $a$. The differences $a-\alpha(a)$ have common zero set $F$, since even functions separate the points of $SO_3$. They generate the closed ideal of functions vanishing on $F$. The same trace identity, with $b$ multiplied by any even function, gives $\sigma(kbv)=0$ for every $k$ in this ideal. Thus $\sigma(bv)=\sigma(hbv)$ whenever $0\leq h\leq1$ is even and equals $1$ on $F$. For $x=hbv\in C(O_2^+)$, Cauchy--Schwarz applied to $x$ and $1$, followed by traciality, gives
+\[
+ |\sigma(x)|^2\leq\sigma(x^*x)=\sigma(xx^*)=\int h^2|b|^2\,d\eta .
+\]
+Taking cutoffs decreasing to the indicator of $F$ proves the claim.
+
+On each rotation class of angle $0<\phi<\pi$, membership in $F$ forces the axis to be that of $p(d)$. At $\phi=\pi$ the perpendicular axes are also possible. In either case these axes have area zero on the sphere. Thus a class measure gives $F$ exactly its mass at the identity $e$. Our measure $\nu$ has all its mass at the positive angles $2\theta_\gamma$, so $\nu(F)=0$. The bound forces every tracial lift of $\nu$ to vanish on the odd part. This proves uniqueness.
+
+Finally, a character pulled back from $C(O_2)$ restricts to evaluation at a point $x\in SO_3$. Choose an odd $b$ nonzero at a lift of $x$. By multiplicativity the squared absolute value of the character on $bv$ is its value on $(bv)(bv)^*=|b|^2$, which is positive. The bound with $\eta=\delta_x$ forces $x\in F$. Hence every state factoring through $C(O_2)$ has even measure supported on $F$. Since $\nu(F)=0$, the $2$ even measures are mutually singular probabilities. Their norm distance is $2$, and so is the distance of the original states.
+\end{proof}
+
+The proof gives a description of all central traces, including those whose even measure has an atom at $e$.
+
+\begin{samepage}
+\begin{thm}\label{lifts}
+The central traces on $C(O_2^+)$ are precisely
+\[
+ \tau_{\nu,c}(f+bv)=\int_{SO_3}f\,d\nu+c\,b(I),\qquad |c|\leq\nu(\{e\}),
+\]
+where $\nu$ is a conjugation-invariant probability measure on $SO_3$ and $c$ is real. The distance of $\tau_{\nu,c}$ to the set of states factoring through $C(O_2)$ is $2(1-\nu(\{e\}))$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+For a central trace the even measure $\nu$ is conjugation-invariant. By the bound in the proof of Theorem~\ref{li-trace}, $|\tau(bv)|^2\leq\nu(\{e\})|b(I)|^2$. Thus on odd functions $\tau(bv)=c\,b(I)$ for some scalar $c$. Take $b(g)=Tr(g)/2$, so $bv$ is a self-adjoint contraction and $b(I)=1$. Thus $c$ is real. For an even continuous class function $0\leq a\leq1$ with $a(e)=1$ we have
+\[
+ |c|=|\tau(a^{1/2}bv a^{1/2})|\leq\int a\,d\nu.
+\]
+Shrinking the support to $e$ gives $|c|\leq m$, where $m=\nu(\{e\})$.
+
+Conversely, integrate the even part against $\nu-m\delta_e$ as in the proof above. At $e$ the $2$ evaluations $f+bv\to f(e)\pm b(I)$ are central characters. Adding them with weights $(m+c)/2$ and $(m-c)/2$ gives the prescribed central trace. As above, let $F$ be the centralizer of $p(d)$. Every state factoring through $C(O_2)$ has its even measure supported on $F$, whereas $\nu(F)=m$. Testing the $2$ even measures on functions bounded by $1$ that equal $-1$ on $F$ and tend to $1$ off $F$ gives the lower bound $2(1-m)$. For $m>0$ the normalized mixture of the $2$ characters at $e$ attains this bound, since the remaining mass is $1-m$. For $m=0$ the lower bound is already $2$.
+\end{proof}
+
+In particular each uniform rotation class of positive angle gives $1$ extreme central trace, whereas the identity gives the $2$ characters with $c=\pm1$. As the angle decreases to zero, the class traces converge to the midpoint of those $2$ characters.
+
+Let us compare the theorem with the other rotation groups. On each of them positivity of a state with the prescribed moments implies RH by Li's criterion. For this comparison $\chi_j$ denotes the character of the irreducible of label $j$ in each group, with $\chi_1$ fundamental.
+
+\begin{samepage}
+\begin{prop}\label{rank}
+Under RH the moment equations of Theorem~\textup{\ref{li-trace}} have a continuum of central solutions on $SU_2$. On $O_2^+$ there is also a tracial solution factoring through $C(SO_2)$. On $O_N^+$ for $N\geq3$ and on $SU_2^q$ for $0<|q|<1$, the first $3$ equations already exclude every central tracial state.
+\end{prop}
+\end{samepage}
+\begin{proof}
+The $SU_2$ solutions are given by Theorem~\ref{classicallifts}. On an ordinary plane rotation $R_\theta$ the fundamental character equals $2\cos\theta$, so the fusion recurrence gives $\chi_{n-1}(R_\theta)=\sin(n\theta)/\sin\theta$ for $0<\theta<\pi$. Averaging evaluation at $R_{\theta_\gamma}$ with the weights $w_\gamma$ of Section~\ref{rh} gives the claimed tracial state through $C(SO_2)$. It cannot be central, by Theorem~\ref{li-trace}.
+
+For the $2$ exclusions put $M_n=\lambda_n/\lambda_1$. At the classical atom indexed by $\gamma$, set $s=4\sin^2\theta_\gamma=\lambda_1w_\gamma$. We have $0<s\leq\lambda_1<1$, and the squares for $n=2,3$ are $4-s$ and $(3-s)^2$. Averaging gives $3<M_2<4$ and $M_3<9$. Numerically, \texttt{verify.py} gives $M_2=3.99839\ldots$ and $M_3=8.99036\ldots$.
+
+For $O_N^+$ with $N\geq3$, Freslon, Skalski and Wang~\cite{fsw} show that every central trace is a mixture of Haar and the $2$ characters at $\pm I$. Haar assigns $1$ to each irreducible character square. At either sign the square equals the square of the ordinary dimension. The first $2$ dimensions are $N$ and $d=N^2-1$ by the fusion rules~\cite{banica-book}. For the total weight $t$ at the $2$ signs we would have
+\[
+ M_2=1+td,\qquad M_3=1+t(d^2-1)=1+(M_2-1)(d-1/d).
+\]
+Since $d\geq8$ this is incompatible with the bounds above.
+
+For $SU_2^q$ with $0<|q|<1$, the standard generators satisfy $a^*a+c^*c=aa^*+q^2c^*c=1$. Taking a tracial state $\tau$ gives $(1-q^2)\tau(c^*c)=0$, so $c$ vanishes in its tracial representation. Every trace therefore factors through the quotient by $c=0$, which is $C(\mathbb T)$ since the remaining generator $a$ is unitary with no further relations. The torus weights of each irreducible representation can be read off from the formulas of Koornwinder~\cite{koornwinder}. For $0<|q|<1$, Freslon, Skalski and Wang~\cite{fsw} obtain only mixtures of the $2$ signs. These already give $M_2=4$.
+\end{proof}
+
+We can also recover the positive zero ordinates from the Li trace $\tau$ of Theorem~\ref{li-trace}. Write $B(z)=2\xi(s)$ with $z=s(s-1)$. The functional equation makes $B$ an entire function of $z$, with $B(0)=1$.
+
+\begin{samepage}
+\begin{thm}\label{height}
+Under RH, $S=4-\chi_1^2$ is positive and central, with zero kernel in the tracial representation of $\tau$. Put $D=(S^{-1}-1/4)^{1/2}$. The formula $\mathcal T(x)=\lambda_1\tau(S^{-1}x)$ on positive elements defines a faithful normal semifinite trace, and for every positive Borel function $F$ we have
+\[
+ \mathcal T(F(D))=\sum_{\gamma>0}F(\gamma)
+\]
+with multiplicities. In the same representation we have
+\[
+ \frac{B'(z)}{B(z)}=\lambda_1\tau\big((1+zS)^{-1}\big)
+\]
+for every $z$ outside the zero set of $B$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+In the twist $\chi_1=Tr(g)v$. The trace of $g$ is fixed by $\alpha$, so $S=4-(Tr(g))^2$ is an even class function commuting also with $v$. It lies between $0$ and $4$. On the class at $\theta_\gamma$ its value and its mass per ordinate are
+\[
+ s_\gamma=4\sin^2\theta_\gamma=(1/4+\gamma^2)^{-1},
+ \qquad w_\gamma=s_\gamma/\lambda_1 .
+\]
+There is no mass at zero, so faithfulness of $\tau$ in its tracial representation gives zero kernel. Truncating the central density $\lambda_1 S^{-1}$ defines the stated normal faithful trace. The projections $1_{[1/j,4]}(S)$ have finite trace and increase to $1$, giving semifiniteness. At each atom $D=\gamma$ and the density cancels $w_\gamma$. This gives the counting formula, including repeated zeros.
+
+For the second formula pair the zeros of $\xi$ as in the symmetric product of Voros~\cite{voros,voros-li}. Since $\xi(1/2+t)$ is even and of order $1$ in $t$, the entire function $B$ has order $1/2$ in $z=t^2-1/4$. Its Hadamard product therefore has genus zero. Under RH the paired zeros give
+\[
+ B(z)=\prod_{\gamma>0}(1+zs_\gamma).
+\]
+The constant follows from $B(0)=1$, and $\sum_{\gamma>0}s_\gamma=\lambda_1$ gives local uniform convergence. Logarithmic differentiation off the zeros gives $\sum_{\gamma>0}s_\gamma/(1+zs_\gamma)$, precisely the resolvent integral against the masses $w_\gamma$ multiplied by $\lambda_1$.
+\end{proof}
+
+For a numerical check, subtract the value at $z=0$. The program \texttt{zeros\_check.py} compares $(\lambda_1-B'(z)/B(z))/z$ with the sum of $s_\gamma^2/(1+zs_\gamma)$ over the first $80$ positive ordinates. The difference is the tail of the same series over the omitted ordinates. At $z=-1/4,1/3,7$ it is below $2.5\times10^{-8}$ in each case.
+
+In Section~\ref{rh} the squared characters descended from $SU_2$ to $SO_3$. What happens to this construction under twisting? Wang~\cite{wang-finite} introduced the quantum permutation group $S_N^+$. Its coordinate algebra is generated by the entries of a magic unitary $p=(p_{ij})$. These entries are projections, orthogonal in each row and column, and each row and column sums to $1$. On $4$ points we have $S_4^+=SO_3^{-1}$, a cocycle twist of the rotation group. We refer to~\cite{banica-book} for the quantum permutation groups and their representation theory.
+
+\begin{samepage}
+\begin{prop}
+The projective version of $O_2^+$ is $SO_3$. Under RH the Li trace restricts to the measure $\nu$ of Proposition~\textup{\ref{rot}} on $C(SO_3)$. There is no surjective compact quantum group morphism from $O_2^+$ to $S_4^+$.
+\end{prop}
+\end{samepage}
+\begin{proof}
+The projective algebra is generated by the coefficients of $u^{\otimes2}$. In the graded twist above these coefficients are even, and $u^{\otimes2}$ decomposes as the trivial representation plus the ordinary $3$-dimensional rotation representation. The latter is faithful on $SO_3$, so its coefficients generate $C(SO_3)$. The restriction of the trace was computed in Theorem~\ref{li-trace}.
+
+The magic unitary of $S_4^+$ likewise splits as the trivial representation plus a $3$-dimensional irreducible. A surjection onto $S_4^+$ would pull this irreducible back to the unique $3$-dimensional irreducible of $O_2^+$. Its coefficients commute, while those of the $3$-dimensional irreducible of $S_4^+$ generate the noncommutative algebra $C(S_4^+)$. This rules out the surjection.
+\end{proof}
+
+We can nevertheless transport the character moments from $SO_3$ to $S_4^+$. Write $X=\sum_{i=1}^4p_{ii}$ for the character of the magic unitary. The irreducible characters have the same fusion rules as those of $SO_3$, so we again denote them by $D_j$, with $D_0=1$ and $D_1=X-1$.
+
+\begin{samepage}
+\begin{thm}\label{four-points}
+RH is equivalent to the existence of a central state $\sigma$ on $C(S_4^+)$ satisfying
+\[
+ \sigma(D_j)=\frac{\lambda_{j+1}-\lambda_j}{\lambda_1}
+\]
+for every $j\geq0$, where $D_j$ is the character of the irreducible of dimension $2j+1$. This state is unique and has norm distance $2$ from every state factoring through $C(S_4)$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+As a sum of $4$ projections, $X$ lies between $0$ and $4$. Its Haar law is the free Poisson law with support $[0,4]$, so the whole interval occurs already in the Haar representation. At $x=2+2\cos\phi$, with $0\leq\phi\leq\pi$, the rotation character formula gives
+\[
+ D_j(x)=1+2\sum_{k=1}^j\cos(k\phi),\qquad
+ F_n(x)=\sum_{j=0}^{n-1}D_j(x)=\left|\sum_{k=0}^{n-1}e^{ik\phi}\right|^2 .
+\]
+Thus $F_n(X)$ is positive. Any state with the prescribed moments gives $\sigma(F_n(X))=\lambda_n/\lambda_1$ by summation, so Theorem~\ref{li} gives RH.
+
+Conversely, assume RH. Send a rotation of angle $\phi$ to $x=2+2\cos\phi$. By Proposition~\ref{rot} the image $\mu$ of $\nu$ has the required integrals of $D_j$. To obtain a state on the whole algebra, take the conditional expectation $E$ onto the algebra generated by $X$ in the tracial Haar von Neumann algebra. For the Haar state $h$ we have $\langle x,y\rangle_h=h(y^*x)$. Schur orthogonality gives
+\[
+ \langle v^{(j)}_{ab},D_k\rangle_h=\frac{\delta_{jk}\delta_{ab}}{2j+1},
+ \qquad E(v^{(j)}_{ab})=\frac{\delta_{ab}}{2j+1}D_j
+\]
+since $E$ is the orthogonal projection onto the closed span of the characters $D_k$, which are orthonormal. Each $D_j$ is a polynomial in $X$, so $E$ sends the linear span of the irreducible coefficients into polynomials in $X$. This span is norm dense in the reduced $C^*$-algebra. By contractivity, $E$ maps the reduced algebra into $C^*(X)=C([0,4])$, using the spectrum of $X$ in the Haar representation. Composing $E$ with integration against $\mu$ and pulling back to the full algebra gives a central state. Centrality determines the value on every irreducible coefficient from the character integral, proving uniqueness.
+
+At the rotation angle $2\theta_\gamma$ we have $x=4-s_\gamma$, where $s_\gamma=4\sin^2\theta_\gamma$ as in Theorem~\ref{height}. Since $0<s_\gamma\leq\sum_{\gamma'>0}s_{\gamma'}=\lambda_1<1$, the law $\mu$ gives full mass to $(3,4)$. On $S_4$ the character $X$ counts fixed points and can take only the values $0,1,2,4$. The $2$ measures on the spectrum of $X$ are mutually singular, so the states already have distance $2$ on $C^*(X)$.
+\end{proof}
+
+It remains to see whether the state can be tracial. For an ordinary permutation, moving $1$ point entails moving a second. This observation gives a trace inequality valid on any number of points.
+
+\begin{samepage}
+\begin{thm}
+For the fundamental magic unitary of $S_N^+$, with $N\geq2$, put $Q=N-\sum_{i=1}^N p_{ii}$. Every tracial state $t$ satisfies
+\[
+ t(Q^2)\geq 2t(Q),
+\]
+with equality at a classical transposition. On $C(S_4^+)$ no tracial state satisfies even the $2$ equations of Theorem~\textup{\ref{four-points}} at $j=1,2$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+Put $q_i=1-p_{ii}$. For $i\ne j$, the row and column relations give $p_{ij}\leq q_i,q_j$. Hence $q_iq_jq_i\geq p_{ij}$. By traciality and the row sums we obtain
+\[
+ t(Q^2)-t(Q)=\sum_{i\ne j}t(q_iq_jq_i)
+ \geq\sum_{i\ne j}t(p_{ij})=t(Q).
+\]
+At a transposition $Q=2$. For $N=4$ the first polynomials are $F_2(X)=X$ and $F_3(X)=(X-1)^2$. Thus $Q^2-2Q=F_3(X)-4F_2(X)+7$. The $2$ moment equations would give $\lambda_3-4\lambda_2+7\lambda_1\geq0$. Under RH the opposite sign is immediate, since the law of $Q$ gives full mass to $(0,1)$.
+
+In fact this sign can be proved unconditionally. In the zero sum of Theorem~\ref{li}, pair each upper zero $\rho=\beta+iy$ with $1-\rho$. Put $a_\rho=1/(\rho(1-\rho))$ and $z=1-1/\rho$, so $z+z^{-1}=2-a_\rho$. The pair contributes $2-z^n-z^{-n}$ to $\lambda_n$. For $n=1,2,3$ these contributions are $a_\rho$, $4a_\rho-a_\rho^2$, $9a_\rho-6a_\rho^2+a_\rho^3$. Summing gives the first $3$ cases of the formula of Voros~\cite{voros-li} for the Li coefficients in terms of $Z(j)=\sum_{Im(\rho)>0}a_\rho^j$. These sums are real by the symmetry $\rho\to1-\overline\rho$. Thus
+\[
+ \lambda_3-4\lambda_2+7\lambda_1
+ =Z(3)-2Z(2)=-\sum_{Im(\rho)>0}Re\big(a_\rho^2(2-a_\rho)\big).
+\]
+The sum converges absolutely by the zero count. To see its sign we need only $y>2$. Indeed, by symmetry each positive ordinate occurs at a zero with $\beta\geq1/2$. In the conjugate-paired sum for $\lambda_1$ every pair contributes $2\beta/(\beta^2+y^2)>0$. If $y\leq2$, its contribution is at least $4/17$, since $2\beta/(\beta^2+4)$ increases on $[1/2,1]$. This exceeds $\lambda_1=0.0230957\ldots$.
+
+Now $a_\rho^{-1}=y^2+\beta(1-\beta)+iy(1-2\beta)$, so $|a_\rho|<1/4$ and $|\tan(\arg a_\rho)|<1/2$. It follows that $Re(a_\rho^2)\geq 3|a_\rho|^2/5$. Thus $Re(a_\rho^2(2-a_\rho))>0$ for every upper zero, and the displayed combination of Li coefficients is strictly negative. Its value to $13$ decimal places is $-0.0000740575950$. Both \texttt{verify.py} and \texttt{li\_contour.py} reproduce this value. The former also evaluates $t(Q^2)-2t(Q)$ on the block magic unitary built from $2$ noncommuting rank-$1$ projections.
+\end{proof}
+
+\section{ADE subfactors}\label{jones-section}
+A von Neumann algebra is a unital algebra of bounded operators on a Hilbert space, closed under adjoints and in the weak operator topology. A full matrix algebra is an example. Its center consists of the scalars, and its normalized trace gives the model for the following definition.
+
+\begin{samepage}
+\begin{defn}
+A $\mathrm{II}_1$ factor is an infinite dimensional von Neumann algebra $M$ with center $\mathbb C1$ and a faithful normal tracial state $\tau$.
+\end{defn}
+\end{samepage}
+
+The trace is unique. As with matrices, it gives the scalar product $\langle x,y\rangle_\tau=\tau(y^*x)$. Write $L^2(M)$ for the completion. In a matrix algebra one can cut a projection down to rank $1$. In a $\mathrm{II}_1$ factor every nonzero projection has a strictly smaller nonzero subprojection.
+
+\begin{samepage}
+\begin{defn}
+A subfactor is a unital inclusion $N\subset M$ of $\mathrm{II}_1$ factors. Its Jones index is
+\[
+ [M:N]=\dim_N L^2(M),
+\]
+where $N$ acts by left multiplication and the Murray--von Neumann dimension is normalized by $\dim_N L^2(N)=1$.
+\end{defn}
+\end{samepage}
+
+A direct sum of $k$ copies of $L^2(N)$ has dimension $k$. Cutting $1$ copy by right multiplication by a projection $p\in N$ gives a module of dimension $\tau(p)$. Thus the dimension may be fractional. Which values occur as indices?
+
+\begin{samepage}
+\begin{thm}[Jones]\label{index-range}
+The possible finite indices of subfactors of type $\mathrm{II}_1$ form the set
+\[
+ \{I_n:n\geq3\}\cup[4,\infty),\qquad I_n=4\cos^2(\pi/n),
+\]
+where $n$ runs over the integers. Infinite index also occurs.
+\end{thm}
+\end{samepage}
+\begin{proof}
+Below index $4$ write $\sqrt{[M:N]}=2\cos\theta$ with $0<\theta\leq\pi/3$. The Jones--Wenzl trace recursion~\cite{js} gives the numbers $d_k=\sin((k+1)\theta)/\sin\theta$ from Section~\ref{rh}. Each $d_k$ is a positive multiple of the trace of a projection as long as the preceding terms are positive. Unless $\pi/\theta$ is an integer, $k=\lfloor\pi/\theta\rfloor$ gives a negative term with all preceding terms positive. Thus $[M:N]=I_n$. Jones~\cite{jones} constructs subfactors at every $I_n$ and every finite index at least $4$. The inclusion $N\otimes1\subset N\mathbin{\overline\otimes}N$ has infinite index.
+\end{proof}
+
+The first $4$ indices are $1,2,(3+\sqrt5)/2,3$. For the classification beyond $4$, up to index $5$, see Jones, Morrison and Snyder~\cite{jms}. To see what the index records about an inclusion, start with $L^2(N)$, on which $N$ acts on both sides. Keep the left action fixed and alternately induce the right action to $M$ and restrict it back to $N$. The irreducible bimodules that occur are the vertices of the \emph{principal graph}. Edges record multiplicities under induction, and the root is $L^2(N)$. Jones~\cite{jones-planar} describes the intertwining maps by planar diagrams.
+
+\begin{samepage}
+\begin{thm}[ADE classification]
+Below index $4$ the principal graphs are $A_n$ for $n\geq2$, $D_n$ for even $n\geq4$, and $E_6,E_8$. Their index is $I_h$ for Coxeter number $h$. At index $4$ the finite principal graphs are $\tilde A_{2n}$ for $n\geq1$, $\tilde D_n$ for $n\geq4$, and $\tilde E_6,\tilde E_7,\tilde E_8$. The infinite principal graphs at index $4$ are $A_\infty$, $\tilde A_\infty$ and $D_\infty$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+The adjacency operator has norm at most $\sqrt{[M:N]}$, with equality for finite graphs~\cite{js}. An infinite principal graph contains arbitrarily long paths, whose norms tend to $2$. Thus below index $4$ the graph is finite and has norm $2\cos(\pi/h)$ by the ADE spectral classification of Goodman, de la Harpe and Jones~\cite{ghj}. The subfactor classification excludes the odd $D$ diagrams and $E_7$ below $4$, and gives the stated rooted graphs at $4$. For the classification see Goodman, de la Harpe and Jones~\cite{ghj}, Jones and Sunder~\cite{js}, and Jones~\cite{jones-planar}.
+\end{proof}
+
+We draw the distinguished vertex as $\bullet$. The graphs $A_n,D_n$ have $n$ vertices, the cycle $\tilde A_{2n}$ has $2n$ vertices, and $\tilde D_n$ has $n+1$ vertices. For the spectral measures of these rooted graphs see~\cite{bb}.
+\begin{center}
+\setlength{\unitlength}{1mm}
+\begin{tabular}{@{}l@{\hspace{2mm}}l@{\hspace{8mm}}l@{\hspace{2mm}}l@{}}
+\multicolumn{4}{@{}l}{\emph{Index below $4$}} \\[1mm]
+$A_n$ & $\bullet-\circ-\circ\cdots\circ-\circ-\circ$ & $D_n\ (n\text{ even})$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(20.8,0){\line(1,0){3.4}}
+\put(25.8,0){\line(1,0){3.4}}
+\put(25,0.8){\line(0,1){3.4}}
+\put(15,0){\makebox(0,0){$\cdots$}}
+\put(25,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\put(25,0){\circle{1.6}}
+\put(30,0){\circle{1.6}}
+\end{picture}} \\[1mm]
+$E_6$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(10,0.8){\line(0,1){3.4}}
+\put(10,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\end{picture}} & $E_8$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(20.8,0){\line(1,0){3.4}}
+\put(25.8,0){\line(1,0){3.4}}
+\put(20,0.8){\line(0,1){3.4}}
+\put(20,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\put(25,0){\circle{1.6}}
+\put(30,0){\circle{1.6}}
+\end{picture}} \\[2mm]
+\multicolumn{4}{@{}l}{\emph{Finite graphs at index $4$}} \\[1mm]
+$\tilde{A}_{2n}$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,5){\line(1,0){3.4}}
+\put(5.8,5){\line(1,0){3.4}}
+\put(20.8,5){\line(1,0){3.4}}
+\put(25.8,5){\line(1,0){3.4}}
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(20.8,0){\line(1,0){3.4}}
+\put(25.8,0){\line(1,0){3.4}}
+\put(0,4.2){\line(0,-1){3.4}}
+\put(30,4.2){\line(0,-1){3.4}}
+\put(15,5){\makebox(0,0){$\cdots$}}
+\put(0,5){\circle{1.6}}
+\put(5,5){\circle{1.6}}
+\put(10,5){\circle{1.6}}
+\put(20,5){\circle{1.6}}
+\put(25,5){\circle{1.6}}
+\put(30,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\put(25,0){\circle{1.6}}
+\put(30,0){\circle{1.6}}
+\end{picture}} & $\tilde{D}_n$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(20.8,0){\line(1,0){3.4}}
+\put(25.8,0){\line(1,0){3.4}}
+\put(5,0.8){\line(0,1){3.4}}
+\put(25,0.8){\line(0,1){3.4}}
+\put(15,0){\makebox(0,0){$\cdots$}}
+\put(5,5){\circle{1.6}}
+\put(25,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\put(25,0){\circle{1.6}}
+\put(30,0){\circle{1.6}}
+\end{picture}} \\[1mm]
+$\tilde{E}_6$ & \raisebox{-0.7mm}{\begin{picture}(45,13)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(10,0.8){\line(0,1){3.4}}
+\put(10,5.8){\line(0,1){3.4}}
+\put(10,10){\circle{1.6}}
+\put(10,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\end{picture}} & $\tilde{E}_7$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(20.8,0){\line(1,0){3.4}}
+\put(25.8,0){\line(1,0){3.4}}
+\put(15,0.8){\line(0,1){3.4}}
+\put(15,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\put(25,0){\circle{1.6}}
+\put(30,0){\circle{1.6}}
+\end{picture}} \\[1mm]
+$\tilde{E}_8$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(20.8,0){\line(1,0){3.4}}
+\put(25.8,0){\line(1,0){3.4}}
+\put(30.8,0){\line(1,0){3.4}}
+\put(25,0.8){\line(0,1){3.4}}
+\put(25,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\put(25,0){\circle{1.6}}
+\put(30,0){\circle{1.6}}
+\put(35,0){\circle{1.6}}
+\end{picture}} &  &  \\[2mm]
+\multicolumn{4}{@{}l}{\emph{Infinite graphs at index $4$}} \\[1mm]
+$A_{\infty}$ & $\bullet-\circ-\circ-\circ\cdots$ & $\tilde{A}_\infty$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,5){\line(1,0){3.4}}
+\put(5.8,5){\line(1,0){3.4}}
+\put(10.8,5){\line(1,0){3.4}}
+\put(15.8,5){\line(1,0){3.4}}
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(0,4.2){\line(0,-1){3.4}}
+\put(25,5){\makebox(0,0){$\cdots$}}
+\put(25,0){\makebox(0,0){$\cdots$}}
+\put(0,5){\circle{1.6}}
+\put(5,5){\circle{1.6}}
+\put(10,5){\circle{1.6}}
+\put(15,5){\circle{1.6}}
+\put(20,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\end{picture}} \\[1mm]
+$D_\infty$ & \raisebox{-0.7mm}{\begin{picture}(45,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){3.4}}
+\put(5.8,0){\line(1,0){3.4}}
+\put(10.8,0){\line(1,0){3.4}}
+\put(15.8,0){\line(1,0){3.4}}
+\put(5,0.8){\line(0,1){3.4}}
+\put(25,0){\makebox(0,0){$\cdots$}}
+\put(5,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\put(10,0){\circle{1.6}}
+\put(15,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\end{picture}} &  &  \\[2mm]
+\end{tabular}
+\end{center}
+In these conventions the $4$ $A,D$ series start with the following rooted graphs.
+\begingroup
+\setlength{\unitlength}{1mm}
+\[
+A_2=\bullet-\circ,\qquad \tilde{A}_2=\hbox{\raisebox{-0.7mm}{\begin{picture}(7,8)(-1.5,-1.5)
+\put(-0.46,0.64){\line(0,1){3.72}}
+\put(0.46,0.64){\line(0,1){3.72}}
+\put(0,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\end{picture}}},\qquad D_3=\hbox{\raisebox{-0.7mm}{\begin{picture}(9,8)(-1.5,-1.5)
+\put(0,4.2){\line(0,-1){3.4}}
+\put(0.8,0){\line(1,0){3.4}}
+\put(0,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(5,0){\circle{1.6}}
+\end{picture}}},\qquad \tilde{D}_4=\hbox{\raisebox{-0.7mm}{\begin{picture}(23,8)(-1.5,-1.5)
+\put(0.8,0){\line(1,0){8.4}}
+\put(10.8,0){\line(1,0){8.4}}
+\qbezier(5.56569,4.43431)(7.5,2.5)(9.43431,0.565685)
+\qbezier(14.4343,4.43431)(12.5,2.5)(10.5657,0.565685)
+\put(5,5){\circle{1.6}}
+\put(15,5){\circle{1.6}}
+\put(0,0){\circle*{1.6}}
+\put(10,0){\circle{1.6}}
+\put(20,0){\circle{1.6}}
+\end{picture}}}
+\]
+\endgroup
+The double edge is $\tilde A_2$. The root of $D_3$ is the middle vertex of the $3$-vertex path, whereas the root of the principal graph $A_3$ is an endpoint. The first $D$ principal graph below $4$ is $D_4$, which has the same index $3$ as $A_5$.
+
+The function $4-4\cos^2\theta$ gave the zero ordinates at $\theta=\theta_\gamma$ in Theorem~\ref{height}. At $\theta=\pi/n$ the same function gives the gap $4-I_n$. Let $P_n$ be the monic minimal polynomial of $I_n$ over $\mathbb Q$, so that the field norm of $4-I_n$ from $\mathbb Q(I_n)$ is $P_n(4)$. To see what it counts, put $\Lambda(p^a)=\log p$ for $p$ prime and $a\geq1$, and $\Lambda(n)=0$ otherwise. We write $\psi(X)=\sum_{n\leq X}\Lambda(n)$.
+
+For instance, the $2$ conjugates of $4-I_5$ have product
+\[
+ \frac{5-\sqrt5}{2}\cdot\frac{5+\sqrt5}{2}=5 .
+\]
+Bzd\k{e}ga, Herrera-Poyatos and Moree~\cite{bhm} use the corresponding cyclotomic sum, starting at $n=3$, for the prime number theorem. Kanemitsu and Yoshimoto~\cite{ky-euler} give its Farey log-sine form. Amoroso~\cite{amoroso95} uses polynomial heights for another cyclotomic criterion. The arithmetic part below combines the classical identities $\Phi_n(1)=e^{\Lambda(n)}$ for $n>1$ and $\psi(X)=\log\operatorname{lcm}(1,\ldots,\lfloor X\rfloor)$ for $X\geq1$ with von Koch's criterion~\cite{koch}.
+
+\begin{thm}\label{indices}
+For $n\geq3$ the field norm of $4-I_n$ is $P_n(4)=\Phi_n(1)=e^{\Lambda(n)}$, where $\Phi_n$ is the $n$th cyclotomic polynomial. Every admissible $D$ or $E$ diagram contributes norm $1$. Thus the product of the gap norms over all principal graph types of index below $4$ and Coxeter number at most $X$, each counted once, is
+\[
+ \frac{\operatorname{lcm}(1,\ldots,\lfloor X\rfloor)}{2}
+\]
+for every $X\geq2$. Moreover, RH is equivalent to the estimate
+\[
+ \sum_{3\leq n\leq X}\log P_n(4)=X+O(\sqrt X\log^2 X)
+\]
+as $X\to\infty$.
+\end{thm}
+\begin{proof}
+Write $w=e^{2\pi i/n}$. The conjugates of $I_n=2+w+w^{-1}$ are indexed by the invertible residues $a$ modulo $n$ up to sign, as in Lehmer~\cite{lehmer} and Watkins and Zeitlin~\cite{wz}. Pairing $z-w^a$ with $z-w^{-a}$ gives
+\[
+ z^{\deg P_n}P_n(2+z+z^{-1})=\Phi_n(z).
+\]
+Set $z=1$. The cyclotomic evaluation~\cite{bhm} gives $p$ when $n$ is a power of $p$ and $1$ otherwise. For the path $A_{n-1}$ this supplies a factor $p$ at each prime power from $3$ to $X$. Their product is the stated least common multiple divided by the omitted factor at $n=2$.
+
+A diagram of Coxeter number $h$ has index $4\cos^2(\pi/h)$ by its adjacency spectrum~\cite{ghj}. The remaining diagrams $D_{2m}$ ($m\geq2$), $E_6$ and $E_8$ have Coxeter numbers $4m-2$, $12$ and $30$. Each has at least $2$ distinct prime divisors, so each gap has norm $1$. For $3\leq n\leq120$, \texttt{cyclotomic.py} compares the product over conjugates with the exact integer $\Phi_n(1)$ and checks the least common multiple formula at each cutoff. Finally the displayed sum is $\psi(X)-\log2$ for $X\geq2$. Its error estimate is the criterion of von Koch~\cite{koch}, as given also by Titchmarsh~\cite{titchmarsh}.
+\end{proof}
+
+The path of index $I_n$ also comes from a quantum group at a root of unity. For $n\geq3$ put $q=e^{\pi i/n}$ and consider the fusion category at level $n-2$ of $SU_2$ obtained from tilting modules for $U_q(\mathfrak{sl}_2)$ by quotienting out negligible morphisms. We write this category as $\mathcal C_n$. Its simple objects $V_a$ are indexed by $1\leq a<n$, with $V_1$ the tensor unit. The fusion matrix $N_a$ records multiplication by $V_a$ in this basis. For example, tensoring by $V_2$ takes $V_b$ to $V_{b-1}\oplus V_{b+1}$, omitting terms outside the range. Thus $N_2$ is the adjacency matrix of $A_{n-1}$. Kirillov and Ostrik~\cite{ko} explain how the diagrams $A$, even $D$, $E_6$ and $E_8$ of Coxeter number $n$ arise from commutative separable algebra objects with trivial twist in $\mathcal C_n$. We shall use the path at every level.
+
+The modular $S$-matrix in this basis is the orthogonal sine matrix
+\[
+ S_{ab}=\sqrt{\frac2n}\,\sin\left(\frac{\pi ab}{n}\right),\qquad 1\leq a,b<n.
+\]
+Column $b$ is the normalized eigenvector of the path adjacency matrix for $2\cos(\pi b/n)$, so its squared coordinate $S_{ab}^2$ is the spectral weight at vertex $a$. For the spectral measures of principal graphs see~\cite{bb}. Write $H_{n,a}=-\sum_b S_{ab}^2\log S_{ab}^2$ for its Shannon entropy, with $0\log0=0$.
+
+\begin{samepage}
+\begin{prop}\label{path-entropy}
+Let $A$ be the adjacency matrix of $A_{n-1}$ and $e_1$ its endpoint vector. Its logarithmic average is
+\[
+ L_n=\langle\log(4-A^2)e_1,e_1\rangle
+ =\log(2n)-H_{n,1}
+ =1+2\sum_{j\geq1}\frac{1}{jn((jn)^2-1)}.
+\]
+The rows of maximum entropy are precisely those for which $N_a$ is nonsingular, or equivalently $\gcd(a,n)=1$. In that case $|\det N_a|=1$.
+\end{prop}
+\end{samepage}
+\begin{proof}
+The entropy formula and its maximizers are the Chebyshev calculation of Aptekarev, Dehesa, Mart\'inez-Finkelshtein and Y\'a\~nez~\cite{entropy}. Here the $b$th eigenvalue of $4-A^2$ is $4\sin^2(\pi b/n)=2nS_{1b}^2$, which gives the first equality. To see the series, put $F(x)=(1-\cos(2\pi x))\log(2-2\cos(2\pi x))$, with $F(0)=0$ and period $1$. Then $L_n$ is its average on the grid $b/n$. Multiplying the Fourier series of $\log(2-2\cos(2\pi x))$ by $1-\cos(2\pi x)$ gives constant coefficient $1$ and coefficients $1/(|k|(k^2-1))$ for $|k|\geq2$. The coefficients at $k=\pm1$ are $-3/4$. The series is absolutely summable, and the grid selects only multiples of $n$, so these $2$ terms drop out for $n\geq2$. This calculation works also for $n=2$.
+
+For $d=\gcd(a,n)$, the squared row, with $1$ zero appended, consists up to permutation of $d$ copies of the squared first row at $n/d$ with its zero appended, divided by $d$. Hence $\log(2n)-H_{n,a}=L_{n/d}$. The series makes $L_n$ strictly decreasing, so the maximum entropy occurs exactly at $d=1$. By the Verlinde formula the eigenvalues of $N_a$ are $S_{ab}/S_{1b}$, $1$ for each $b$. All are nonzero exactly when $d=1$. In that case multiplication by $a$ permutes the nonzero residues modulo $n$, so the absolute values in the numerator permute those in the denominator and $|\det N_a|=1$.
+\end{proof}
+
+Thus the fusion matrices themselves pick out the reduced fractions $a/n$ at each level. We can ask how much of the first row lies on these labels. Write $J_n=\{a:\det N_a\ne0\}$ and $w_{n,a}=nS_{1a}^2$. The factor $n$ makes $w_{n,a}=1-\cos(2\pi a/n)$ a function of the fraction alone. Franel~\cite{franel} and Landau~\cite{landau} related RH to the discrepancies of the Farey fractions. Landau~\cite{landau} also gives the cosine sum for the Mertens function that appears in Pisot~\cite{pisot}. Berndt, Kim and Zaharescu~\cite{bkz} recall this identity and give a character-weighted sine variant. For the general method of constructing RH criteria from Farey sums see Kanemitsu and Yoshimoto~\cite{ky-euler}.
+
+\begin{samepage}
+\begin{thm}\label{fusion-farey}
+For every $n\geq3$ the vacuum weights on the maximum-entropy labels give Ramanujan's identity $c_n(1)=\mu(n)$ in the form
+\[
+ \sum_{a\in J_n}(1-w_{n,a})=\mu(n).
+\]
+Moreover RH is equivalent to the estimate
+\[
+ \sum_{3\leq n\leq X}\ \sum_{a\in J_n}
+       \big(w_{n,a}\log(2w_{n,a})-1\big)
+       =O_\epsilon(X^{1/2+\epsilon})
+\]
+for every $\epsilon>0$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+The first sum is the real part of the Ramanujan sum $c_n(1)$ over primitive $n$-th roots of unity, as in Hardy and Wright~\cite{hw}. Summing first over all $n$-th roots and then applying M\"obius inversion gives $\mu(n)$. For example, when $n=6$ the selected labels are $1,5$, each of weight $1/2$, giving $\mu(6)=1$.
+
+For the logarithmic sum put $g=F-1$ and $b(n)=\sum_{a=1}^n g(a/n)$. The endpoint gives $b(1)=-1$. For $n\geq2$ the preceding proposition gives
+\[
+ b(n)=n(L_n-1)=2\sum_{j\geq1}\frac1{j((jn)^2-1)},
+ \qquad 0<b(n)\leq\frac{2\zeta(3)}{n^2-1}.
+\]
+We need the total contribution of $n\geq2$ to be smaller than $|b(1)|$. The first $2$ values are $b(2)=4\log2-2$ and $b(3)=3\log3-3$. For $n\geq4$ use $1/(n^2-1)\leq16/(15n^2)$ and sum $n^{-5/2}$ by comparison with its integral from $7/2$, using convexity. Thus
+\[
+ Q=\sum_{n\geq2}\frac{b(n)}{\sqrt n}
+ \leq\frac{4\log2-2}{\sqrt2}+\frac{3\log3-3}{\sqrt3}
+       +\frac{64\zeta(3)}{45}\left(\frac27\right)^{3/2}<0.98.
+\]
+
+Let $T(X)$ sum $g(a/n)$ over reduced fractions $0<a/n\leq1$ of denominator at most $X$. Including denominators $1,2$ changes the sum in the statement by a constant for $X\geq2$. Group the full grid by reduced denominator and apply M\"obius inversion. With $M(X)=\sum_{n\leq X}\mu(n)$ this gives
+\[
+ T(X)=-M(X)+\sum_{2\leq d\leq X}b(d)M(X/d).
+\]
+Fix $s=1/2+\epsilon$. If $|M(X)|\leq C X^s$ then $|T(X)|\leq C(1+Q)X^s$. Conversely, if $|T(X)|\leq C X^s$, induction on $\lfloor X\rfloor$ in the same identity gives $|M(X)|\leq C X^s/(1-Q)$, since $X/d\leq X/2$ in the sum. The bound $M(X)=O_\epsilon(X^{1/2+\epsilon})$ for every $\epsilon>0$ is the classical Mertens-function criterion for RH, as in Titchmarsh~\cite{titchmarsh}.
+\end{proof}
+
+\section{Montgomery--Dyson}\label{mont}
+Wigner~\cite{wigner} used random matrices to model the energy levels of complex nuclei. $2$ matrix laws enter the comparison with the zeros of $\zeta$.
+
+\begin{samepage}
+\begin{defn}
+A random matrix is a matrix whose entries are random variables on a common probability space. Its ensemble is specified by their joint law. We use the following $2$ ensembles in size $N$.
+\renewcommand{\labelenumi}{\textup{\theenumi.}}
+\begin{enumerate}
+\item In the Gaussian unitary ensemble (GUE), $H=H^*$. The diagonal entries are centered real Gaussians of variance $1$. The real and imaginary parts above the diagonal are centered real Gaussians of variance $1/2$. All these real variables are independent.
+\item In the circular unitary ensemble (CUE) of Dyson~\textup{\cite{dyson}}, $U$ has Haar probability law on $U_N$. Thus $VUW$ has the same law as $U$ for all fixed $V,W\in U_N$.
+\end{enumerate}
+\end{defn}
+\end{samepage}
+
+The GUE eigenvalues lie on the real line. Already in size $2$ we can see why $2$ of them rarely lie close together.
+
+\begin{samepage}
+\begin{prop}\label{matrix-gap}
+For real $a,b$ and complex $z$, the gap between the $2$ eigenvalues of a Hermitian matrix is
+\[
+ H=\begin{pmatrix}a&z\\ \overline z&b\end{pmatrix},\qquad
+ s=\lambda_{\max}(H)-\lambda_{\min}(H)=\sqrt{(a-b)^2+4|z|^2}.
+\]
+In the GUE normalization above, the gap has density $s^2e^{-s^2/4}/(2\sqrt\pi)$ on $s>0$.
+\end{prop}
+\end{samepage}
+\begin{proof}
+The characteristic polynomial is $(t-a)(t-b)-|z|^2$, so the gap is the square root of its discriminant. In the GUE the $3$ variables $a-b,2Re(z),2Im(z)$ are independent Gaussians of variance $2$. Their joint density at distance $s$ from the origin is $(4\pi)^{-3/2}e^{-s^2/4}$. Integrating over the sphere of area $4\pi s^2$ gives the formula.
+\end{proof}
+
+The CUE eigenvalues lie on the unit circle. Writing them as $e^{i\alpha_j}$, we measure angles in units of the mean spacing $2\pi/N$. An $r$-point correlation density integrates a test function against the expected sum over all ordered choices of $r$ distinct indices. In particular a pair can have other eigenvalues between its $2$ members.
+
+\begin{samepage}
+\begin{thm}\label{sine-law}
+At unit mean spacing the limiting $r$-point correlation density of CUE is
+\[
+ \rho_r(x_1,\ldots,x_r)=\det\big(K(x_i-x_j)\big)_{i,j=1}^r,\qquad
+ K(x)=\frac{\sin(\pi x)}{\pi x},\quad K(0)=1,
+\]
+for every fixed $r$. The same limit holds in the interior of the GUE spectrum when distances are measured in units of the local mean spacing. In particular the pair density is $g(x)=1-K(x)^2$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+In the angular coordinate $x=N\alpha/(2\pi)$ the Weyl density of the CUE is the squared modulus of a Vandermonde determinant, divided by its integral. Orthogonality of the exponentials gives the $r$-point density as the determinant of the projection kernel
+\[
+ K_N(x,y)=\frac1N\sum_{m=0}^{N-1}e^{2\pi im(x-y)/N}.
+\]
+This Riemann sum tends locally uniformly to $e^{\pi i(x-y)}K(x-y)$. The phase factors cancel in the determinant. For GUE the corresponding projection uses the first $N$ Hermite functions, whose bulk asymptotics give the same sine kernel, as in Mehta~\cite{mehta} and Anderson, Guionnet and Zeitouni~\cite{agz}. Taking the determinant in size $2$ gives $g$.
+\end{proof}
+
+For the zeros the unit of spacing varies with height. By the Riemann--von Mangoldt formula~\cite{titchmarsh}, the number $M(T)$ of positive ordinates up to $T$, counted with multiplicity, is
+\[
+ M(T)=\frac{T}{2\pi}\log\frac{T}{2\pi}-\frac{T}{2\pi}+O(\log T).
+\]
+The derivative of the main term is asymptotic to $L_T=(\log T)/(2\pi)$, so a difference $\gamma_j-\gamma_l$ is measured in units of mean spacing by multiplying it by $L_T$.
+
+\begin{samepage}
+\begin{defn}
+For $M(T)>0$ and a real even Schwartz function $f$, the weighted pair statistic of the zeros is
+\[
+ R_T(f)=\frac1{M(T)}
+ \sum_{\substack{0<\gamma_j,\gamma_l\leq T\\j\ne l}}
+ f\big(L_T(\gamma_j-\gamma_l)\big)w(\gamma_j-\gamma_l),
+ \qquad w(v)=\frac4{4+v^2},
+\]
+where distinct occurrences of a multiple zero have distinct indices.
+\end{defn}
+\end{samepage}
+
+Montgomery~\cite{montgomery} predicted the following law for pairs.
+
+\begin{samepage}
+\begin{conj}[Montgomery]\label{pair}
+For the ordinates of the nontrivial zeros of $\zeta$ we have
+\[
+ \lim_{T\to\infty}R_T(f)=\int_{\mathbb R} f(x)\big(1-K(x)^2\big)\,dx
+\]
+for every real even smooth function $f$ of compact support.
+\end{conj}
+\end{samepage}
+
+Dyson recognized the right-hand side as the pair law of the unitary ensembles. Montgomery~\cite{montgomery} credited him with this observation and wrote down the following prediction for all orders. In its statement, $\sum^*$ runs over distinct indices with $0<\gamma_{j_i}\leq T$. We use the first ordinate as the origin and write $y_i=L_T(\gamma_{j_i}-\gamma_{j_1})$.
+
+\begin{samepage}
+\begin{conj}[GUE correlation prediction from Dyson's model]\label{gue-prediction}
+For every $r\geq2$, put $x_1=0$. The local correlations of the zeta zeros satisfy
+\[
+ \lim_{T\to\infty}\frac1{M(T)}\sum\nolimits^* F(y_2,\ldots,y_r)
+ =\int_{\mathbb R^{r-1}} F(x_2,\ldots,x_r)
+       \det\big(K(x_i-x_j)\big)_{i,j=1}^r\,dx_2\ldots dx_r
+\]
+for every real smooth function $F$ of compact support on $\mathbb R^{r-1}$.
+\end{conj}
+\end{samepage}
+
+At $r=2$ the determinant gives $g(x)=\pi^2x^2/3+O(x^4)$ near zero. Since $w(x/L_T)\to1$ uniformly on compact intervals, the $2$ pair predictions agree, as one sees by bounding $|f|$ with a smooth cutoff. At $r=3$, writing $A=K(x)$, $B=K(y)$ and $C=K(x-y)$, we get
+\[
+ \rho_3(0,x,y)=1-A^2-B^2-C^2+2ABC.
+\]
+Odlyzko~\cite{odlyzko} tested the spacing laws numerically, and Rudnick and Sarnak~\cite{rs} obtained higher correlations for tests of restricted Fourier support.
+
+\begin{samepage}
+\begin{thm}[Montgomery]\label{restricted-pairs}
+Assume RH. Then the conclusion of Conjecture~\textup{\ref{pair}} holds for real even Schwartz functions $f$ with $\operatorname{supp}\widehat f\subset(-1,1)$, where $\widehat f(t)=\int_{\mathbb R}f(x)e^{-2\pi itx}\,dx$.
+\end{thm}
+\end{samepage}
+\begin{proof}
+Montgomery's restricted-support theorem~\cite{montgomery} gives $\widehat f(0)+\int_{-1}^1 |t|\widehat f(t)\,dt$ for the limit with the diagonal included. Removing it subtracts $f(0)=\int_{-1}^1\widehat f(t)\,dt$. The Fourier transform of $K^2$ is the triangular function $\max(1-|t|,0)$, giving the asserted integral.
+\end{proof}
+
+Baluyot, Goldston, Suriajaya and Turnage-Butterbaugh~\cite{bgst} prove an unconditional analogue using the complex locations of pairs of zeros. The height operator of Section~\ref{central} gives a trace expression for the statistic of the ordinates.
+
+\begin{samepage}
+\begin{prop}
+Under RH let $D,\mathcal T$ be as in Theorem~\textup{\ref{height}}. Put $P_T=1_{(0,T]}(D)$, $D_1=D\otimes1$, $D_2=1\otimes D$ and $\mathcal T_2=\mathcal T\otimes\mathcal T$. Then
+\[
+ R_T(f)=\frac{\mathcal T_2\big((P_T\otimes P_T)
+ f(L_T(D_1-D_2))w(D_1-D_2)\big)}{\mathcal T(P_T)}-f(0)
+\]
+for $M(T)>0$ and every real even Schwartz function $f$.
+\end{prop}
+\end{samepage}
+\begin{proof}
+Theorem~\ref{height} identifies the spectral measure of $D$ under $\mathcal T$ with counting measure on the positive ordinates, including multiplicity. The product trace counts all ordered pairs and $\mathcal T(P_T)=M(T)$. Each index paired with itself contributes $f(0)$ before normalization, since $w(0)=1$. Removing these terms retains the pairs of distinct indices at a repeated zero.
+\end{proof}
+
+With $T$ the $80$th positive ordinate and $f(x)=e^{-x^2}$, \texttt{zeros\_check.py} gives $0.15751053\ldots$ for both sides. The script evaluates the same finite sum by listing pairs of distinct indices and by grouping ordinates with their multiplicities. On the matrix side the Fourier modes of the pair count are ordinary traces.
+
+\begin{samepage}
+\begin{prop}\label{classical-powers}
+For Haar $U\in U_N$ with eigenvalues $e^{i\alpha_j}$ we have
+\[
+ |Tr(U^k)|^2=\sum_{j,l}e^{ik(\alpha_j-\alpha_l)},\qquad
+ E(|Tr(U^k)|^2)=\min(k,N)
+\]
+for every integer $k\geq1$. Removing the diagonal subtracts $N$ from the first sum.
+\end{prop}
+\end{samepage}
+\begin{proof}
+The first equality follows by multiplying the power sum by its conjugate. For the second, the off-diagonal pair density in angular coordinates, relative to $d\alpha\,d\beta/(2\pi)^2$, is $N^2-|\sum_{m=0}^{N-1}e^{im(\alpha-\beta)}|^2$ by the CUE kernel above. Its $k$th Fourier coefficient is $-\max(N-k,0)$, since exactly $\max(N-k,0)$ pairs of modes differ by $k$. Adding the diagonal gives the formula of Diaconis and Shahshahani~\cite{ds} for $k\leq N$, and of Diaconis and Evans~\cite{de} for all $k$.
+\end{proof}
+
+For $N=2,3,4$, \texttt{powers.py} checks the formula through $k=2N$ on a Weyl grid. What takes the place of $Tr(U^k)$ on a quantum group? For an ordinary unitary matrix with eigenvalues $z_1,\ldots,z_N$, there are $2$ ways to recover the same power sum. Matrix multiplication gives $Tr(U^k)=\sum_j z_j^k$. For $Z(z)=\det(1-zU)=\prod_j(1-zz_j)$, the coefficient of $z^k$ in $-zZ'(z)/Z(z)$ is also $\sum_j z_j^k$. Both constructions make sense for the Drinfeld--Jimbo deformation $U_N^q$~\cite{drinfeld,jimbo}.
+
+\begin{samepage}
+\begin{defn}
+Let $u=(u_{ij})$ be the fundamental corepresentation of $U_N^q$, $0<q\leq1$. Write $e_r$ for the ordinary character of its $r$th quantum exterior power, with $e_0=1$. The character polynomial $Z_{q,N}$ and its Newton power sums $p_{k,q}$ are given by
+\[
+ Z_{q,N}(z)=\sum_{r=0}^N(-z)^r e_r,\qquad
+ -\frac{zZ'_{q,N}(z)}{Z_{q,N}(z)}=\sum_{k\geq1}p_{k,q}z^k,
+\]
+where the second formula is a formal expansion at zero. The ordered power trace is
+\[
+ X_k=Tr(u^k)=\sum_{i_1,\ldots,i_k}u_{i_1i_2}\ldots u_{i_ki_1},
+\]
+with factors multiplied in the indicated order. At $q=1$ both $p_{k,1}$ and $X_k$ equal $Tr(U^k)$.
+\end{defn}
+\end{samepage}
+
+We begin with the exterior characters. Their tensor products determine the joint law of the coefficients of $Z_{q,N}$.
+
+\begin{samepage}
+\begin{prop}\label{cue}
+The coefficients of $Z_{q,N}$ are commuting normal elements. Under the Haar state $h$ their joint law equals that of the coefficients of $\det(1-zU)$ for Haar $U\in U_N$. In particular, the reciprocal roots have the CUE law and
+\[
+ h(p_{k,q}^*p_{k,q})=\min(k,N)
+\]
+for every $k\geq1$ and $0<q\leq1$.
+\end{prop}
+\end{samepage}
+\begin{proof}
+A product of ordinary characters is the character of the tensor product. For a unitary corepresentation $v=(v_{ij})$, the adjoint of its character is $\sum_i v_{ii}^*$, the character of $(v_{ij}^*)$. This matrix is similar to a unitary conjugate corepresentation by a scalar change of basis, which preserves the sum of the diagonal entries. By Neshveyev and Tuset~\cite{nt}, the exterior powers, tensor-product multiplicities and duals correspond under the usual identification of highest weights for $U_N^q$ and $U_N$. The resulting character algebras are therefore isomorphic as $*$-algebras. In particular the $e_r$ commute with each other and their adjoints.
+
+For a unitary corepresentation $v$, Haar averaging projects onto the fixed vectors, so $h(\chi_v)=\dim\operatorname{Fix}(v)$. Every mixed moment of the $e_r$ thus counts the same multiplicity of the trivial representation as at $q=1$. Polynomial approximation gives the joint law of the coefficients. They determine the unordered reciprocal roots, since the leading coefficient is unitary up to sign. Proposition~\ref{classical-powers} now gives the moment formula.
+\end{proof}
+
+The fourth moment of the character polynomial follows from the same identification.
+
+\begin{samepage}
+\begin{prop}
+For every $0<q\leq1$ the character polynomial has fourth moment
+\[
+ h\big(|Z_{q,N}(1)|^4\big)=\frac{(N+1)(N+2)^2(N+3)}{12}.
+\]
+The coefficient of $N^4$ is the matrix factor $1/12$ in the comparison with the fourth moment of $\zeta$.
+\end{prop}
+\end{samepage}
+\begin{proof}
+By Proposition~\ref{cue} we can evaluate at $q=1$. The Keating--Snaith formula~\cite{ks}, as explained by Bump~\cite{bump}, gives the product of $(j+2)(j+3)/(j(j+1))$ for $1\leq j\leq N$. It telescopes to the stated polynomial. Multiplying its leading coefficient by the arithmetic factor $1/\zeta(2)$ gives Ingham's constant $1/(2\pi^2)$~\cite{ingham}. For the factors coming from primes and nearby zeros see Gonek, Hughes and Keating~\cite{ghk}, and for zeta moments see Soundararajan~\cite{sound}.
+\end{proof}
+
+We now multiply the entries of $u$ in their given order. In degree $1$ the constructions agree, since $X_1=e_1=p_{1,q}$. Degree $2$ already detects the deformation.
+
+\begin{samepage}
+\begin{prop}
+For $N\geq2$ and $0<q<1$, the Newton sum $p_{2,q}=e_1^2-2e_2$ and the ordered trace $X_2=Tr(u^2)$ satisfy
+\[
+ h(p_{2,q}^*p_{2,q})=2,\qquad
+ h(X_2^*X_2)\leq1+\left(\frac{2q}{1+q^2}\right)^2<2.
+\]
+At $q=1$ both second moments are $2$.
+\end{prop}
+\end{samepage}
+\begin{proof}
+Expanding the logarithmic derivative gives $p_{2,q}=e_1^2-2e_2$, and Proposition~\ref{cue} gives its moment. For $X_2$ let $F(\xi\otimes\eta)=\eta\otimes\xi$ be the ordinary flip. The identity $X_2=Tr(Fu^{\otimes2})$ expresses the order of multiplication by means of $F$. Decompose $u^{\otimes2}$ into its $q$-symmetric and $q$-antisymmetric squares. Only the diagonal compressions of $F$ enter this trace. On the antisymmetric square the compression is the scalar $-2q/(1+q^2)$, as one sees on the orthogonal spanning vectors $e_i\otimes e_j-qe_j\otimes e_i$, $i<j$. On the symmetric square the compression has norm at most $1$.
+
+For an irreducible unitary corepresentation $v$, Schur orthogonality~\cite{nt} gives
+\[
+ h\big(Tr(Bv)^*Tr(Bv)\big)\leq\|B\|^2 .
+\]
+Indeed, in a basis diagonalizing the orthogonality matrix the left side is a weighted average of squared column norms of $B$. The $2$ squares are inequivalent irreducibles, so their cross terms vanish. Adding the bounds gives the result.
+\end{proof}
+
+The program \texttt{powers.py} checks the flip compression at $4$ values of $q$. At the scale $k/N\to a>0$ the normalized Newton moment $h(p_{k,q}^*p_{k,q})/N$ tends to $\min(a,1)$. For fixed $0<q<1$, does $h(X_k^*X_k)/N$ have a limit at this scale, and what is it?
+
+We return to Montgomery's conjecture using the character polynomial of $U_N^q$. If its reciprocal roots are $e^{i\alpha_j}$, their expected pair statistic at unit mean spacing is
+\[
+ R_N^{(q)}(f)=\frac1N E\sum_{j\ne l}\sum_{m\in\mathbb Z}
+ f\left(\frac{N(\alpha_j-\alpha_l)}{2\pi}+mN\right).
+\]
+The sum over $m$ makes the expression independent of the choice of angles. Following Keating and Snaith~\cite{ks}, take $d_T=\lfloor\log(T/(2\pi))\rfloor$ to match the mean densities at height $T$.
+
+\begin{samepage}
+\begin{thm}\label{deformed-pairs}
+For every fixed $0<q\leq1$, Montgomery's Conjecture~\textup{\ref{pair}} is equivalent to
+\[
+ \lim_{T\to\infty}\big(R_T(f)-R_{d_T}^{(q)}(f)\big)=0
+\]
+for every real even smooth function $f$ of compact support.
+\end{thm}
+\end{samepage}
+\begin{proof}
+Proposition~\ref{cue} gives $R_N^{(q)}(f)=R_N^{(1)}(f)$ at every $N$. By rotation invariance we can fix the first angle, and periodization unfolds the difference variable to $\mathbb R$. The matrix statistic is then the integral of $f(x)(1-|K_N(x,0)|^2)$. By Theorem~\ref{sine-law} this tends to the integral of $f(x)(1-K(x)^2)$. This is the limit predicted for the zeros in Conjecture~\ref{pair}. The same equivalence holds for any positive integer-valued $d_T$ tending to infinity, since the limiting matrix integral is independent of this choice.
+\end{proof}
+
+\phantomsection\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{99}
+\setlength{\baselineskip}{12pt}
+\bibitem{alpoge-claude} Alp\"oge and Claude (and Lean), \href{https://alpo.ge/remark.pdf}{Proof of the Riemann hypothesis} (2026).
+\bibitem{amoroso95} F. Amoroso, On the heights of a product of cyclotomic polynomials, \textit{Rend. Sem. Mat. Univ. Politec. Torino} \textbf{53} (1995), 183--191.
+\bibitem{agz} G.W. Anderson, A. Guionnet and O. Zeitouni, An introduction to random matrices, Cambridge University Press (2010).
+\bibitem{apostol} T.M. Apostol, Introduction to analytic number theory, Springer (1976).
+\bibitem{entropy} A.I. Aptekarev, J.S. Dehesa, A. Mart\'inez-Finkelshtein and R.J. Y\'a\~nez, Discrete entropies of orthogonal polynomials, \textit{Constr. Approx.} \textbf{30} (2009), 93--119.
+\bibitem{arias} J. Arias de Reyna, Asymptotics of Keiper--Li coefficients, \textit{Funct. Approx. Comment. Math.} \textbf{45} (2011), 7--21.
+\bibitem{bgst} S.A.C. Baluyot, D.A. Goldston, A.I. Suriajaya and C.L. Turnage-Butterbaugh, An unconditional Montgomery theorem for pair correlation of zeros of the Riemann zeta-function, \textit{Acta Arith.} \textbf{214} (2024), 357--376.
+\bibitem{banica-book} T. Banica, Introduction to quantum groups, Springer (2023).
+\bibitem{bb} T. Banica and D. Bisch, Spectral measures of small index principal graphs, \textit{Comm. Math. Phys.} \textbf{269} (2007), 259--281.
+\bibitem{bc-integration} T. Banica and B. Collins, Integration over compact quantum groups, \textit{Publ. Res. Inst. Math. Sci.} \textbf{43} (2007), 277--302.
+\bibitem{banica-opus} T. Banica and C. Opus, Quantum permutations and the Standard Model algebra, \mbox{zenodo:24403549} (2026).
+\bibitem{bkz} B.C. Berndt, S. Kim and A. Zaharescu, Evaluations and relations for finite trigonometric sums, \textit{Res. Math. Sci.} \textbf{11} (2024), article 56.
+\bibitem{bny} J. Bichon, S. Neshveyev and M. Yamashita, Graded twisting of categories and quantum groups by group actions, \textit{Ann. Inst. Fourier} \textbf{66} (2016), 2299--2338.
+\bibitem{bl} E. Bombieri and J.C. Lagarias, Complements to Li's criterion for the Riemann hypothesis, \textit{J. Number Theory} \textbf{77} (1999), 274--287.
+\bibitem{bump} D. Bump, Lie groups, second edition, Springer (2013).
+\bibitem{bhm} B. Bzd\k{e}ga, A. Herrera-Poyatos and P. Moree, Cyclotomic polynomials at roots of unity, \textit{Acta Arith.} \textbf{184} (2018), 215--230.
+\bibitem{cfk} F. Cipriani, U. Franz and A. Kula, Symmetries of L\'evy processes on compact quantum groups, their Markov semigroups and potential theory, \textit{J. Funct. Anal.} \textbf{266} (2014), 2789--2844.
+\bibitem{connes-book} A. Connes, Noncommutative geometry, Academic Press (1994).
+\bibitem{connes} A. Connes, Trace formula in noncommutative geometry and the zeros of the Riemann zeta function, \textit{Selecta Math. (N.S.)} \textbf{5} (1999), 29--106.
+\bibitem{connes-consani} A. Connes and C. Consani, Spectral triples and $\zeta$-cycles, \textit{Enseign. Math.} \textbf{69} (2023), 93--148.
+\bibitem{connes-marcolli} A. Connes and M. Marcolli, Noncommutative geometry, quantum fields and motives, American Mathematical Society (2008).
+\bibitem{de} P. Diaconis and S.N. Evans, Linear functionals of eigenvalues of random matrices, \textit{Trans. Amer. Math. Soc.} \textbf{353} (2001), 2615--2633.
+\bibitem{ds} P. Diaconis and M. Shahshahani, On the eigenvalues of random matrices, \textit{J. Appl. Probab.} \textbf{31A} (1994), 49--62.
+\bibitem{drinfeld} V.G. Drinfeld, Quantum groups, \textit{Proc. Int. Congr. Math.} (Berkeley, 1986), vol. 1, American Mathematical Society (1987), 798--820.
+\bibitem{dyson} F.J. Dyson, Statistical theory of the energy levels of complex systems. I, \textit{J. Math. Phys.} \textbf{3} (1962), 140--156.
+\bibitem{franel} J. Franel, Les suites de Farey et le probl\`eme des nombres premiers, \textit{Nachr. Ges. Wiss. G\"ottingen, Math.-Phys. Kl.} (1924), 198--201.
+\bibitem{fsw} A. Freslon, A. Skalski and S. Wang, Tracial central states on compact quantum groups, \textit{J. Funct. Anal.} \textbf{289} (2025), 110988.
+\bibitem{ghk} S.M. Gonek, C.P. Hughes and J.P. Keating, A hybrid Euler--Hadamard product for the Riemann zeta function, \textit{Duke Math. J.} \textbf{136} (2007), 507--549.
+\bibitem{ghj} F.M. Goodman, P. de la Harpe and V.F.R. Jones, Coxeter graphs and towers of algebras, Springer (1989).
+\bibitem{hw} G.H. Hardy and E.M. Wright, An introduction to the theory of numbers, sixth edition, Oxford University Press (2008).
+\bibitem{hjm} Y.-H. He, V. Jejjala and D. Minic, On the physics of the Riemann zeros, \textit{J. Phys. Conf. Ser.} \textbf{462} (2013), 012036.
+\bibitem{ingham} A.E. Ingham, Mean-value theorems in the theory of the Riemann zeta-function, \textit{Proc. London Math. Soc.} \textbf{27} (1928), 273--300.
+\bibitem{ir} K. Ireland and M. Rosen, A classical introduction to modern number theory, second edition, Springer (1990).
+\bibitem{jimbo} M. Jimbo, A $q$-difference analogue of $U(\mathfrak{g})$ and the Yang--Baxter equation, \textit{Lett. Math. Phys.} \textbf{10} (1985), 63--69.
+\bibitem{jones} V.F.R. Jones, Index for subfactors, \textit{Invent. Math.} \textbf{72} (1983), 1--25.
+\bibitem{jones-planar} V.F.R. Jones, Planar algebras, I, \textit{New Zealand J. Math.} \textbf{52} (2021), 1--107.
+\bibitem{jms} V.F.R. Jones, S. Morrison and N. Snyder, The classification of subfactors of index at most $5$, \textit{Bull. Amer. Math. Soc.} \textbf{51} (2014), 277--327.
+\bibitem{js} V.F.R. Jones and V.S. Sunder, Introduction to subfactors, Cambridge University Press (1997).
+\bibitem{ky-euler} S. Kanemitsu and M. Yoshimoto, Euler products, Farey series, and the Riemann hypothesis, \textit{Publ. Math. Debrecen} \textbf{56} (2000), 431--449.
+\bibitem{ks} J.P. Keating and N.C. Snaith, Random matrix theory and $\zeta(1/2+it)$, \textit{Comm. Math. Phys.} \textbf{214} (2000), 57--89.
+\bibitem{keiper} J.B. Keiper, Power series expansions of Riemann's $\xi$ function, \textit{Math. Comp.} \textbf{58} (1992), 765--773.
+\bibitem{ko} A. Kirillov Jr. and V. Ostrik, On a $q$-analogue of the McKay correspondence and the ADE classification of $\widehat{\mathfrak{sl}}_2$ conformal field theories, \textit{Adv. Math.} \textbf{171} (2002), 183--227.
+\bibitem{koornwinder} T.H. Koornwinder, Representations of the twisted $SU(2)$ quantum group and some $q$-hypergeometric orthogonal polynomials, \textit{Nederl. Akad. Wetensch. Proc. Ser. A} \textbf{92} (1989), 97--117.
+\bibitem{lagarias} J.C. Lagarias, Li coefficients for automorphic $L$-functions, \textit{Ann. Inst. Fourier} \textbf{57} (2007), 1689--1740.
+\bibitem{landau} E. Landau, Bemerkungen zu der vorstehenden Abhandlung von Herrn Franel, \textit{Nachr. Ges. Wiss. G\"ottingen, Math.-Phys. Kl.} (1924), 202--206.
+\bibitem{lehmer} D.H. Lehmer, A note on trigonometric algebraic numbers, \textit{Amer. Math. Monthly} \textbf{40} (1933), 165--166.
+\bibitem{li-ref} X.-J. Li, The positivity of a sequence of numbers and the Riemann hypothesis, \textit{J. Number Theory} \textbf{65} (1997), 325--333.
+\bibitem{ms} K. Mazhouda and L. Smajlovi\'c, On relations equivalent to the generalized Riemann hypothesis for the Selberg class, \textit{Funct. Approx. Comment. Math.} \textbf{56} (2017), 67--93.
+\bibitem{mehta} M.L. Mehta, Random matrices, third edition, Academic Press (2004).
+\bibitem{montgomery} H.L. Montgomery, The pair correlation of zeros of the zeta function, \textit{Proc. Sympos. Pure Math.} \textbf{24} (1973), 181--193.
+\bibitem{nt} S. Neshveyev and L. Tuset, Compact quantum groups and their representation categories, Soci\'et\'e Math\'ematique de France (2013).
+\bibitem{odlyzko} A.M. Odlyzko, On the distribution of spacings between zeros of the zeta function, \textit{Math. Comp.} \textbf{48} (1987), 273--308.
+\bibitem{pisot} C. Pisot, Suites de Farey, \textit{S\'eminaire Delange--Pisot--Poitou, Th\'eorie des nombres} \textbf{2} (1960--1961), exp. 11, 1--7.
+\bibitem{rosenthal} J.S. Rosenthal, Random rotations: characters and random walks on $SO(N)$, \textit{Ann. Probab.} \textbf{22} (1994), 398--423.
+\bibitem{rs} Z. Rudnick and P. Sarnak, Zeros of principal $L$-functions and random matrix theory, \textit{Duke Math. J.} \textbf{81} (1996), 269--322.
+\bibitem{serre} J.-P. Serre, A course in arithmetic, Springer (1973).
+\bibitem{sound} K. Soundararajan, The distribution of values of zeta and $L$-functions, \textit{Proc. Int. Congr. Math. 2022}, vol. 2, EMS Press (2023), 1260--1310.
+\bibitem{suzuki} M. Suzuki, Li coefficients as norms of functions in a model space, \textit{J. Number Theory} \textbf{252} (2023), 177--194.
+\bibitem{titchmarsh} E.C. Titchmarsh, The theory of the Riemann zeta-function, second edition, revised by D.R. Heath-Brown, Oxford University Press (1986).
+\bibitem{koch} H. von Koch, Sur la distribution des nombres premiers, \textit{Acta Math.} \textbf{24} (1901), 159--182.
+\bibitem{voros} A. Voros, Zeta functions for the Riemann zeros, \textit{Ann. Inst. Fourier} \textbf{53} (2003), 665--699, erratum \textbf{54} (2004), 1139.
+\bibitem{voros-li} A. Voros, Sharpenings of Li's criterion for the Riemann hypothesis, \textit{Math. Phys. Anal. Geom.} \textbf{9} (2006), 53--63.
+\bibitem{wang} S. Wang, Free products of compact quantum groups, \textit{Comm. Math. Phys.} \textbf{167} (1995), 671--692.
+\bibitem{wang-finite} S. Wang, Quantum symmetry groups of finite spaces, \textit{Comm. Math. Phys.} \textbf{195} (1998), 195--211.
+\bibitem{wz} W. Watkins and J. Zeitlin, The minimal polynomial of $\cos(2\pi/n)$, \textit{Amer. Math. Monthly} \textbf{100} (1993), 471--474.
+\bibitem{wigner} E.P. Wigner, Characteristic vectors of bordered matrices with infinite dimensions, \textit{Ann. of Math.} \textbf{62} (1955), 548--564.
+\bibitem{woro-cmp} S.L. Woronowicz, Compact matrix pseudogroups, \textit{Comm. Math. Phys.} \textbf{111} (1987), 613--665.
+\bibitem{woro-su} S.L. Woronowicz, Twisted $SU(2)$ group. An example of a non-commutative differential calculus, \textit{Publ. Res. Inst. Math. Sci.} \textbf{23} (1987), 117--181.
+\bibitem{woro-tk} S.L. Woronowicz, Tannaka--Krein duality for compact matrix pseudogroups. Twisted $SU(N)$ groups, \textit{Invent. Math.} \textbf{93} (1988), 35--76.
+\end{thebibliography}
+\end{document}
